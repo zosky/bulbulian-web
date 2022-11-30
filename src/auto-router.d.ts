@@ -10,6 +10,9 @@ import type {
   RouteLocationResolvedTypedList,
   RouteLocationNormalizedTypedList,
   RouteLocationNormalizedLoadedTypedList,
+  RouteLocationAsString,
+  RouteLocationAsRelativeTypedList,
+  RouteLocationAsPathTypedList,
 
   // helper types
   // route definitions
@@ -34,7 +37,20 @@ declare module 'vue-router/auto/routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...404]': RouteRecordInfo<'/[...404]', '/:404(.*)', { 404: ParamValue<true> }, { 404: ParamValue<false> }>,
-    '/about': RouteRecordInfo<'/about', '/about', Record<never, never>, Record<never, never>>,
+    '/amira/': RouteRecordInfo<'/amira/', '/amira', Record<never, never>, Record<never, never>>,
+    '/ben/': RouteRecordInfo<'/ben/', '/ben', Record<never, never>, Record<never, never>>,
+    '/chris/': RouteRecordInfo<'/chris/', '/chris', Record<never, never>, Record<never, never>>,
+    '/chris/blog': RouteRecordInfo<'/chris/blog', '/chris/blog', Record<never, never>, Record<never, never>>,
+    '/chris/games/[[platform]]/': RouteRecordInfo<'/chris/games/[[platform]]/', '/chris/games/:platform?', { platform?: ParamValueZeroOrOne<true> }, { platform?: ParamValueZeroOrOne<false> }>,
+    '/chris/games/snes': RouteRecordInfo<'/chris/games/snes', '/chris/games/snes', Record<never, never>, Record<never, never>>,
+    '/chris/myGames': RouteRecordInfo<'/chris/myGames', '/chris/myGames', Record<never, never>, Record<never, never>>,
+    '/marc/': RouteRecordInfo<'/marc/', '/marc', Record<never, never>, Record<never, never>>,
+    '/marc/AboutMe': RouteRecordInfo<'/marc/AboutMe', '/marc/AboutMe', Record<never, never>, Record<never, never>>,
+    '/marc/appHowTo': RouteRecordInfo<'/marc/appHowTo', '/marc/appHowTo', Record<never, never>, Record<never, never>>,
+    '/marc/AppToDo': RouteRecordInfo<'/marc/AppToDo', '/marc/AppToDo', Record<never, never>, Record<never, never>>,
+    '/marc/other/paramExample': RouteRecordInfo<'/marc/other/paramExample', '/marc/other/paramExample', Record<never, never>, Record<never, never>>,
+    '/mel/': RouteRecordInfo<'/mel/', '/mel', Record<never, never>, Record<never, never>>,
+    '/roger/': RouteRecordInfo<'/roger/', '/roger', Record<never, never>, Record<never, never>>,
   }
 }
 
@@ -65,6 +81,14 @@ declare module 'vue-router/auto' {
    * Type safe version of `RouteLocation` . Allows passing the name of the route to be passed as a generic.
    */
   export type RouteLocation<Name extends keyof RouteNamedMap = keyof RouteNamedMap> = RouteLocationTypedList<RouteNamedMap>[Name]
+
+  /**
+   * Type safe version of `RouteLocationRaw` . Allows passing the name of the route to be passed as a generic.
+   */
+  export type RouteLocationRaw<Name extends keyof RouteNamedMap = keyof RouteNamedMap> =
+    | RouteLocationAsString<RouteNamedMap>
+    | RouteLocationAsRelativeTypedList<RouteNamedMap>[Name]
+    | RouteLocationAsPathTypedList<RouteNamedMap>[Name]
 
   /**
    * Generate a type safe params for a route location. Requires the name of the route to be passed as a generic.
