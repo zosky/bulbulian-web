@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* darkMode defaults */
+.dark { @apply text-sky-200 bg-black }
+
+/* markDown + darkMode */
+main { @apply mx-2 }
+main .markdown-body { 
+  @apply max-w-7xl p-4
+    bg-gray-300 bg-opacity-50 
+    dark:text-blue-200
+    dark:bg-gray-900 dark:bg-opacity-50 
+    dark:shadow-cyan-900 
+    rounded-xl m-2 shadow-lg
+    mx-3 md:mx-auto
+}
+
+.markdown-body li { @apply list-outside list-disc }
+.markdown-body a { @apply dark:text-yellow-400 font-bold ; }
+.markdown-body .person { @apply h-8 w-8 inline }
+.markdown-body svg { @apply inline }
+.markdown-body hr { @apply bg-blue-300 dark:bg-blue-600  h-[1px] }
+.markdown-body h1,
+.markdown-body h2 { @apply dark:border-b-gray-700 border-b-gray-300 text-gray-700 dark:text-sky-400 }
