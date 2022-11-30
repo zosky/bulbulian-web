@@ -1,73 +1,49 @@
-# changeLog
-- *22.11.12* eslint+prettier+lint-on-save
-  - installed eslint, prettier, and all links between
-  - enabled vscode lint-on-save
-  - linted everything
-- *22.11.4* init
-  - +github dependabot
-  - +buildbot
-    - **... but pages disabled for private repos**
-    - example @ `.github/workflows/deploy.yml` 
-    - rename and push to (re)activate
-    - ~~removed netlify~~
-  - [props@bottom](#props) 
+# Bulbulian.com webSite hosting
 
-# Vite, Vue3, Tailwind CSS (single-page app)
+a modern web app for the family domain. built using vite, vue3, tailwilndCSS and a raft of plugins.
 
-![Vite, Vue, Tailwind CSS](https://user-images.githubusercontent.com/11320080/111277027-a9384c00-8640-11eb-8323-21889bd7c609.png)
+## Maintenance
 
-This starter template includes:
+- each `familyMember` has a folder inside `src/pages`
+  - `index.md` is your homepage
+  - `anything.md` is another page you can add
+  - to make trees & nested pages, check `src/pages/chris/games` for an examples
 
-- [Vite 3](https://vitejs.dev/guide/)
-- [Vue 3](https://vuejs.org/guide/introduction.html)
-- [Tailwind CSS 3](https://tailwindcss.com/docs/configuration)
-- [Vue Router](https://github.com/vuejs/router)
-- [@vueuse/head](https://github.com/vueuse/head) - document head manager
-- [TypeScript](https://vuejs.org/guide/typescript/overview.html) - write vue files as `<script setup>` or `<script setup lang="ts">`
-- [Inter var font](https://github.com/rsms/inter) (self-hosted, woff2, v3.19, with 'preload' attr, check out index.html)
-- [Headless UI](https://headlessui.com/vue/menu) - unstyled UI components, designed to integrate beautifully with Tailwind CSS
-- [Heroicons](https://github.com/tailwindlabs/heroicons) - beautiful hand-crafted SVG icons,
-  by the makers of Tailwind CSS
-- [prettier-plugin-tailwindcss](https://tailwindcss.com/blog/automatic-class-sorting-with-prettier) - automatic class sorting with Prettier
+## Editing
 
-First-party plugins needed for Tailwind UI:
+- talk to <PersonBubble name=marc /> or
+- clone the project, make changes, submit pull requests...
+  - pages **must** be named `*.md` (markDown) or `*.vue` (vue3)
+    - example: `/youName/anything.md` or `/youName/someFolder/index.md` ... 
+    - pages may be `plain text`, `markDown formatted` and/or `html formatted`
+    - *proTip: to theme specific pages) put* `<style scoped>someCSS</style>` at the bottom of the page 
+  - 3 `<CustomComponents>` are available
+    - use `<Bulbulian/>` to render our last name in a fun way ( <Bulbulian /> |`bul•bul•ian` )
+    - use `<PersonBubble name="name"/>` to make a <PersonBubble name=ben /> bubble
+    - use `<YouTube id="someVideoID"/>` to embed a youTube video
+    - consult <PersonBubble name="marc" /> if you have ideas for more than can help everyone
 
-- [tailwindcss/forms](https://github.com/tailwindlabs/tailwindcss-forms)
-- [tailwindcss/line-clamp](https://github.com/tailwindlabs/tailwindcss-line-clamp)
-- [tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin)
-- [tailwindcss/aspect-ratio](https://github.com/tailwindlabs/tailwindcss-aspect-ratio)
+## Development
 
-Unplugin Utilities:
+- (once) install git
+- (once) install nodeJS
+- clone the repo
+- `npm run dev`
+- make cool stuff
+- `git push` <-- buildBot will publish to `ghPages`
 
-- [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) - components auto importing
-- [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import) - auto import the most used APIs
-- [unplugin-vue-router](https://github.com/posva/unplugin-vue-router) - file based routing for vue-router
+## changeLog
 
-### Getting Started
-
-```sh
-npx degit web2033/vite-vue3-tailwind-starter vvt-app
-cd vvt-app
-```
-
-```sh
-npm i
-npm run dev
-npm run build
-npm run serve
-```
-
-<!-- [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/web2033/vite-vue3-tailwind-starter) -->
-
-# PROPS
-
-when trying to start a new project, i noticed the repo (&user) are gone f/gitHub (?). i found it @stackblitz, tried installing it again anyway... and it worked (f/cache), so im saving it for mySelf.
-```
-$ npx degit web2033/vite-vue3-tailwind-starter 
-```
-> ! could not fetch [remote](https://github.com/web2033/vite-vue3-tailwind-starter).
-<br>using cached commit hash `66bae2a2b7c08b30df716d5b21b6f704986241e1`
-<br> cloned `web2033/vite-vue3-tailwind-starter#HEAD` to `vite-vue3-tailwind-starter`
-<br>... cloned to gitHub
-
-... so i made this repo
+- made global components
+- enable markdownRendering & watch `*.md` files
+- default markDown CSS
+- installed `mdue` for icons
+- update all dependencies (+ dropped not used ones)
+- made a bunch of reusable components
+- made folder/index.md for each person
+  - plus some example deep level content for chris
+- replaced template `README.md` with project details
+  - simLinked it to a page in myDir b/c why not
+- added `favicon(.ico|.svg|-192.png|-512.png)`
+- added `webmanifest.manifest` to use all icons
+- added favicon+manifest to index.html
