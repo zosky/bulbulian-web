@@ -1,0 +1,37 @@
+name: Build and Publish
+on: [push]
+jobs:
+  build_vue:
+    runs-on: ubuntu-latest
+    name: Build Vue
+    steps:
+    - uses: actions/checkout@v2
+    - name: vite build
+      run: |
+        npm install
+        npm run build
+    - name: ghPages 404 hack
+      shell: bash
+      run: |
+        cd dist
+        ln -s index.html 404.html
+    - name: apply cName
+      shell: bash
+      run: |
+        cd dist
+        echo www.bulbulian.com > CNAME
+    - name: update config for pushing
+      shell: bash
+      run: |
+        git config --global user.email "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.name "$(git log -n 1 --pretty=format:%ae)"
+    - name: publish new version
+      shell: bash
+      run: |
+        git config --global user.email "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.name "$(git log -n 1 --pretty=format:%ae)"
+        cd  dist
+        git init
+        git add -A
+        git commit -m "autoPublish: ${{ github.sha }}"
+        git push -f https://${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{github.repository}}.git master:gh-pages
