@@ -2,7 +2,7 @@
 
 Born in Egypt, she became fascinated with the world at an early age.
 As one of the first female TaekwanDo black belts in the country,
-she mastered the patience needed to love 1 brilliant scientist <PersonBubble class=i person=roger />,
+she mastered the patience needed to love 1 brilliant scientist <PersonBubble class=i name=roger />,
 & 2 *(slightly mad-scientist-flavoured)* children
 (<PersonBubble name=marc class=i />/<PersonBubble name=chris class=i />).
 
