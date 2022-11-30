@@ -15,6 +15,11 @@ jobs:
       run: |
         cd dist
         ln -s index.html 404.html
+    - name: apply cName
+      shell: bash
+      run: |
+        cd dist
+        echo www.bulbulian.com > CNAME
     - name: update config for pushing
       shell: bash
       run: |
