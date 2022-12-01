@@ -7,9 +7,7 @@
 I love watching & making videos.
 subscribe to my <Youtube /> channel & like my <Video/>s
 
-my dad made it really easy: [ben.bulbulian.com 🔗](https://ben.bulbulian.com) opens my channel
-
-# and here's some of my favorite videos
+# here's some of my favorite videos
 
 <div class="flex flex-wrap">
   <YouTube id="Y1JWQ8_ms5U" class=v />
