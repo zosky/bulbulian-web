@@ -1,0 +1,3 @@
+<template>
+  install: <AppInstall />  
+</template>

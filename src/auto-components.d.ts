@@ -8,9 +8,9 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AboutApp: typeof import('./components/AboutApp.vue')['default']
+    AppInstall: typeof import('./components/AppInstall.vue')['default']
     BackgroundBocca: typeof import('./components/BackgroundBocca.vue')['default']
     Bulbulian: typeof import('./components/svg/Bulbulian.vue')['default']
-    ButtonRepo: typeof import('./components/ButtonRepo.vue')['default']
     FamLogo: typeof import('./components/svg/FamLogo.vue')['default']
     NavPersonPages: typeof import('./components/NavPersonPages.vue')['default']
     PersonBubble: typeof import('./components/PersonBubble.vue')['default']

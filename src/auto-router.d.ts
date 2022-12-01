@@ -44,6 +44,7 @@ declare module 'vue-router/auto/routes' {
     '/chris/games/[[platform]]/': RouteRecordInfo<'/chris/games/[[platform]]/', '/chris/games/:platform?', { platform?: ParamValueZeroOrOne<true> }, { platform?: ParamValueZeroOrOne<false> }>,
     '/chris/games/snes': RouteRecordInfo<'/chris/games/snes', '/chris/games/snes', Record<never, never>, Record<never, never>>,
     '/chris/myGames': RouteRecordInfo<'/chris/myGames', '/chris/myGames', Record<never, never>, Record<never, never>>,
+    '/install': RouteRecordInfo<'/install', '/install', Record<never, never>, Record<never, never>>,
     '/marc/': RouteRecordInfo<'/marc/', '/marc', Record<never, never>, Record<never, never>>,
     '/marc/AboutMe': RouteRecordInfo<'/marc/AboutMe', '/marc/AboutMe', Record<never, never>, Record<never, never>>,
     '/marc/appHowTo': RouteRecordInfo<'/marc/appHowTo', '/marc/appHowTo', Record<never, never>, Record<never, never>>,
