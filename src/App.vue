@@ -9,5 +9,6 @@
       <router-view />
     </main>
     <BackgroundBocca />
+    <AppInstall />
   </div>
 </template>
