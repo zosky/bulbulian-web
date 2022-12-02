@@ -44,18 +44,19 @@ const installGoTime = async () => {
       </div>
     </button>
   </div>
+  <div v-if="!isHidden" id="spacer" class="h-24 md:hidden" />
 </template>
 
 <style scoped>
-.wrapAll { @apply absolute bottom-3 right-5 xl:right-6 w-min }
+.wrapAll { @apply fixed bottom-3 right-5 xl:right-6 w-min mt-10 }
 button { @apply 
   self-center justify-between flex-row-reverse 
   mx-3 px-4 pb-1 pt-2 w-full 
   rounded-xl animate-pulse ring-1 
-  bg-blue-400 bg-opacity-50 
+  bg-blue-400
   ring-blue-600 
   dark:text-yellow-500 
-  dark:bg-purple-500 dark:bg-opacity-60 
+  dark:bg-purple-500 
   dark:ring-pink-700 my-auto 
   transition-all
   hover:scale-125 origin-bottom-right
