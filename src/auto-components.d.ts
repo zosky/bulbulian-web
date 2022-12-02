@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     BackgroundBocca: typeof import('./components/BackgroundBocca.vue')['default']
     Bulbulian: typeof import('./components/svg/Bulbulian.vue')['default']
     FamLogo: typeof import('./components/svg/FamLogo.vue')['default']
+    GameControllers: typeof import('./components/GameControllers.vue')['default']
     NavPersonPages: typeof import('./components/NavPersonPages.vue')['default']
     PersonBubble: typeof import('./components/PersonBubble.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
