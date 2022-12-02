@@ -2,7 +2,7 @@
 // heavily inspired by (/lifted from)
 // PROPS: https://web.dev/codelab-make-installable/
 import { Download } from 'mdue'
-const isHidden = ref(false)
+const isHidden = ref(true)
 
 onMounted(()=>{
   /* Only register a service worker if it's supported */
