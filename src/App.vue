@@ -1,4 +1,5 @@
 <script setup>
+inject('$messaging') // init fireBase messaging
 </script>
 
 <template>
