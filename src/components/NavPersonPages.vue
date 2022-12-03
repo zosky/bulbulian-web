@@ -12,15 +12,15 @@ const myRoutes = computed(() => router?.options?.routes
 <template>
   <div class="w-full px-2 bg-opacity-20 bg-gray-300 flex flex-row">
     <div class="max-w-7xl w-full mx-auto flex flex-row p-2 ">
-      <menu class="px-3 flex flex-row items-center gap-2">
-        <li
+      <div class="px-3 flex flex-row items-center gap-2">
+        <button
           v-for="p in myRoutes" :key="p"
           :class="{hereNow: $route.name == p.name }"
           @click="$router.push(p)">
           <BookOpenPageVariant class="inline mb-0.5" /> 
           {{p?.name?.split('/')?.pop() || 'home' }}
-        </li>
-      </menu>
+        </button>
+      </div>
     </div>
   </div>
 </template>
