@@ -1,12 +1,9 @@
 ## my games
 
-<div class="flex gap-2 items-center justify-center w-full">
-  <a href="/chris/games/theBest/">
-    <img src="./assets/faves.png" />
-  </a>
-  <a href="/chris/games/snes/">
-    <img src="./assets/full.png"  />
-  </a>
-</div>
+[![faves](./assets/faves.png)](./games/top/)
+[![fullList](./assets/full.png)](./games/full/)
+[<GameControllers i="snes" />](./games/snes)
 
-<router-view />
+<style scoped>
+  img,svg { @apply w-1/3 inline }
+</style>

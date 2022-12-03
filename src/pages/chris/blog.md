@@ -750,8 +750,6 @@ I've never had a blog before. The main reason I thought to make one is because I
 
 I'm not sure what anyone who reads this will make of it. I don't know if it matters. Either way, I bid good luck to whomever decides to read this blog. You're either very smart, very stupid, or somewhere in-between.
 
-www.000webhost.com
-
 <style scoped>
   h5 { @apply text-green-500 }
 </style>
