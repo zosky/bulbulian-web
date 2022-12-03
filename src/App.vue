@@ -1,4 +1,5 @@
 <script setup>
+inject('$smashToken')() // init Firebase
 </script>
 
 <template>
