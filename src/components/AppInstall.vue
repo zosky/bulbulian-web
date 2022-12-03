@@ -1,15 +1,18 @@
 <script setup>
 // heavily inspired by (/lifted from)
 // PROPS: https://web.dev/codelab-make-installable/
+import { register } from 'register-service-worker'
 import { Download } from 'mdue'
 const isHidden = ref(true)
 
 onMounted(()=>{
   /* Only register a service worker if it's supported */
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker-offline.js')
-    navigator.serviceWorker.register('/service-worker-firebase.js')
-  }
+  // if ('serviceWorker' in navigator) {
+  // navigator.serviceWorker.register('/service-worker-offline.js')
+  // navigator.serviceWorker.register('/service-worker-firebase.js')
+  // }
+  register('/service-worker-offline.js')
+  register('//service-worker-firebase.js')
   window.addEventListener('beforeinstallprompt', (event) => {
     console.log('👍', 'beforeinstallprompt', event)
     event.preventDefault() // Prevent the mini-infobar from appearing on mobile.
