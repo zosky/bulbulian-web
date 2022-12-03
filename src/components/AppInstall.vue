@@ -8,6 +8,7 @@ onMounted(()=>{
   /* Only register a service worker if it's supported */
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker-offline.js')
+    navigator.serviceWorker.register('/service-worker-firebase.js')
   }
   window.addEventListener('beforeinstallprompt', (event) => {
     console.log('👍', 'beforeinstallprompt', event)
