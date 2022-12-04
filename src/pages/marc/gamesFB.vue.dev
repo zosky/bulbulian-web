@@ -1,0 +1,33 @@
+<!-- for data loading -->
+<script setup>
+import gamesSNES from './games/games-snes.json'
+const getData = inject('$getData')
+const saveData = inject('$saveData')
+const dbCollection = 'marcGamesSNES'
+const goTimeGet = async () => { 
+  const d = await getData(dbCollection) 
+  // console.log(d)
+  dbData.value = d
+}
+const goTimeSet = async () => {
+  const x = gamesSNES[thisIX.value] 
+  await saveData(dbCollection, x.name, x)
+  thisIX.value = thisIX.value + 1
+  if(gamesSNES?.[thisIX.value]) await goTimeSet()
+}
+const thisIX = ref(0)
+const dbData = ref(null)
+</script>
+
+<template>
+  <div class="flex flex-row">
+    <div class="flex flex-col w-1/2">
+      <button class="ring-1" @click="goTimeSet()">reload ALL data</button>
+      <pre class="overflow-scroll bg-blue-900" v-text="gamesSNES[thisIX]" />
+    </div>
+    <div class="flex flex-col w-1/2">
+      <button class="ring-1" @click="goTimeGet()">getMyPS3</button>
+      <pre class="overflow-scroll bg-green-900" v-text="dbData??'empty'" />
+    </div>
+  </div>
+</template>

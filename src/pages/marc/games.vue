@@ -1,21 +1,28 @@
 <script setup>
-import { GamepadVariant } from 'mdue'
-import gamesPS3 from './games/games-ps3.json'
-import gamesSNES from './games/games-snes.json'
-const shelf = new URL('./games/images/woodShelf.png',import.meta.url).href
-const data = {
-  ps3: gamesPS3.map(g=>g={...g, img:new URL(`./games/images/covers/${g.id}${g.name.includes('PSN')?'.[PSN]':''}.png`,import.meta.url).href}),
-  snes: gamesSNES.map(g=>g={...g, img:new URL(`./games/images/${g.cover}`,import.meta.url).href})
-}
-const cData = computed(()=>{
-  const s = search.value
-  const d = data
-  return !s ? d : { 
-    ps3: d.ps3.filter(g=>g.name.toLowerCase().includes(s)),
-    snes: d.snes.filter(g=>g.name.toLowerCase().includes(s)),
-  }
-})
+import { GamepadVariant, Loading } from 'mdue'
+const getData = inject('$getData')
+const gamesPS3 = ref(null)
+const gamesSNES = ref(null)
 const search = ref(null)
+// smash URLs
+const data = computed(()=>{
+  const s = search.value
+  const ps3 = gamesPS3
+    ?.value
+    ?.map(g=>g={...g, img:new URL(`./games/images/covers/${g.id}${g.name.includes('PSN')?'.[PSN]':''}.png`,import.meta.url).href})
+    ?.filter(g=> s ? g.name.toLowerCase().includes(s) : true )
+    ?? []
+  const snes = gamesSNES
+    ?.value
+    ?.map(g=>g={...g, img:new URL(`./games/images/${g.cover}`,import.meta.url).href})
+    ?.filter(g=> s ? g.name.toLowerCase().includes(s) : true )
+    ?? []
+  return { ps3, snes }
+})
+const shelf = new URL('./games/images/woodShelf.png',import.meta.url).href
+// get data
+getData('marcGamesPS3').then(r=>{ gamesPS3.value = r })
+getData('marcGamesSNES').then(r=>{ gamesSNES.value = r })
 
 </script>
 
@@ -25,9 +32,10 @@ const search = ref(null)
       <GamepadVariant text-xl class="ico" />
       <input v-model="search" type="search" placeholder="search games...">
     </div>
-    <details v-for="(games,console) in cData" :key="console" class="p-2 ">
+    <details v-for="(games,console) in data" :key="console" class="p-2 ">
       <summary class="">
-        <div class="num" v-text="games.length" />
+        <Loading v-if="(!games.length && !search.length)" class="animate-spin text-3xl animate-pulse" />
+        <div v-else class="num" v-text="games.length" />
         <GameControllers :i="console" :class="console" class="console animate" :animate="true" />
       </summary>
       <div class="blockBuster">

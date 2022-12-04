@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getAnalytics, logEvent } from 'firebase/analytics'
 import { getMessaging, getToken } from 'firebase/messaging'
+import { getFirestore, collection, doc, setDoc, getDocs } from 'firebase/firestore'
 // more@ https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
@@ -21,5 +22,22 @@ const smashToken = async () => await getToken(messaging, { vapidKey: 'BAzyuaAmkB
 // init:Firebase:analitics
 const analytics = getAnalytics(app)
 const smashEvent = async (msg:string) => await logEvent(analytics, msg)
+// init:fireBase:db
+const db = getFirestore(app)
+const saveData = async (dbCollection:string,docName:string,data:object) => {
+  console.log('saving', dbCollection, data)
+  try {
+    await setDoc(doc(db, dbCollection, docName), data)
+    console.log('done')
+  } catch (e) {
+    console.error('Error adding document: ', e)
+  }
+}
+const getData = async (dbCollection:string) =>{
+  const querySnapshot = await getDocs(collection(db, dbCollection))
+  const docs: object[] = []
+  querySnapshot.forEach((doc) => { docs.push(doc.data()) })
+  return docs
+}
 // share
-export { smashEvent, smashToken }
+export { smashEvent, smashToken, saveData, getData }
