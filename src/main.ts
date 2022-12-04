@@ -4,7 +4,7 @@ import './assets/gitHubMD.css'
 import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { createHead } from '@vueuse/head'
-import { smashToken, smashEvent, saveData, getData } from './components/firebase'
+import { smashToken, smashEvent, saveData, getData, doAuth, localUser } from './components/firebase'
 import PersonBubble from './components/PersonBubble.vue'
 import Bulbulian from './components/svg/Bulbulian.vue'
 
@@ -22,6 +22,8 @@ app.component('Bulbulian',Bulbulian)
 app.provide('$smashEvent',smashEvent)
 app.provide('$smashToken',smashToken)
 app.provide('$getData',getData)
+app.provide('$doAuth',doAuth)
+app.provide('$localUser',localUser.value)
 if(import.meta.env.MODE == 'development'){
   // DEV ONLY - add data
   app.provide('$saveData',saveData)

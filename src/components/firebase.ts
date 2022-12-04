@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app'
 import { getAnalytics, logEvent } from 'firebase/analytics'
 import { getMessaging, getToken } from 'firebase/messaging'
 import { getFirestore, collection, doc, setDoc, getDocs } from 'firebase/firestore'
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth'
 // more@ https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
@@ -39,5 +40,46 @@ const getData = async (dbCollection:string) =>{
   querySnapshot.forEach((doc) => { docs.push(doc.data()) })
   return docs
 }
+// init:fireBase:auth
+const localUser = ref({
+  isLoading: false,
+  hasFailed: false,
+  // localError: anu,
+  user: {}
+})
+const doAuth = async (goOut=false) => {
+  console.log('auth goTime', goOut?'goIn':'goOut')
+  const auth = getAuth()
+  if (goOut){
+    signOut(auth)
+    localUser.value.user = {}
+    return localUser.value
+  }
+  const provider = new GoogleAuthProvider()
+
+  localUser.value.isLoading = true
+  localUser.value.hasFailed = false
+  // localUser.value.localError = null
+  console.log('auth TRY')
+
+  try {
+    console.log('auth CHECK')
+    const result = await signInWithPopup(auth, provider)
+    localUser.value.user = result.user
+  } catch(error) {
+    console.log('auth ERROR', error)
+    localUser.value.hasFailed = true
+    // localUser.value.localError = error
+  } finally {
+    localUser.value.isLoading = false
+  }
+  console.log('auth DONE', localUser.value )
+  return localUser.value
+}
+onAuthStateChanged(getAuth(), user => {
+  localUser.value.isLoading = false
+  localUser.value.hasFailed = false
+  localUser.value.user = user ?? {}
+})
 // share
-export { smashEvent, smashToken, saveData, getData }
+export { smashEvent, smashToken, saveData, getData, doAuth, localUser }
