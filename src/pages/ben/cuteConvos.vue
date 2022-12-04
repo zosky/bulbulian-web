@@ -1,22 +1,63 @@
 <script setup>
-import convos from './cuteConvos.json'
+import { CheckboxMarkedCircle } from 'mdue'
 import moment from 'moment'
-const convoRev = convos.sort((a,b)=>a.date<b.date?1:-1)
+// fireBaseDB
+import jsonConvos from './cuteConvos.json' // jsonCache f/localAPI
+const dbCollection = 'BenCuteConvos' // cached @ fireBase
+const getData = inject('$getData') // getter
+const saveData = inject('$saveData') // setter
+// setup
+const devMode = import.meta.env.MODE == 'development'
 const iconXreff = { ben: 'ben', dad: 'marc', mom: 'mel' }
+const convos = ref(devMode?jsonConvos:[])
+const thisIX = ref(0) // used to loop through data @ loading
+// if(!devMode) getData(dbCollection).then(r=>{ convos.value = r })
+const convoRev = computed( ()=> {
+  const c = convos?.value
+  return c?.length ? c?.sort((a,b)=>a.date<b.date?1:-1) : []
+})
+// "(my)methods"
 const cssTag = c => `${c} ${c!='ben'?'else':''}`
-useHead({title:`funny things ben said [${convoRev.length}]`})
+const setData = async () => {
+  const x = convos?.value[thisIX.value] 
+  await saveData(dbCollection, x.title, x)
+  convos.value[thisIX.value].done = true
+  thisIX.value = thisIX.value + 1
+  if(convos?.value?.[thisIX.value]) await setData()
+}
+const loadData = async () => {
+  convos.value = []
+  await getData(dbCollection)
+    .then( r =>{ 
+      convos.value = r 
+      useHead({title:`funny things ben said [${r.length}]`})
+    })
+}
+// init remote data @ load onProd
+onMounted(()=>{ if(!devMode) loadData() }) 
 </script>
 
 <template>
   <div class="convos">
+    <div v-if="devMode" class="flex flex-row">
+      <button 
+        class="bg-red-900 bg-opacity-40 text-orange-700 font-bold w-full" 
+        @click="setData()" 
+        v-text="`DEV:setData@${dbCollection}`" />
+      <button 
+        class="bg-violet-900 bg-opacity-40 text-violet-200 font-bold w-full" 
+        @click="loadData()" 
+        v-text="`DEV:loadData@${dbCollection}`" />
+    </div>
     <details v-for="(c,cIX) in convoRev" :key="cIX">
       <summary>
-        <div class="title" v-text="c.title" />
-        <div class="date" v-text="moment(c.date).fromNow(true)" />
-        <div class="dateFull" v-text="moment(c.date).format('YY MMM. Do')" />
+        <CheckboxMarkedCircle v-if="c?.done" class="done" />
+        <div class="title" v-text="c?.title" />
+        <div class="date" v-text="moment(c?.date).fromNow(true)" />
+        <div class="dateFull" v-text="moment(c?.date).format('YY MMM. Do')" />
       </summary>
       <div class="convo">
-        <div v-for="msg in c.convo" :key="msg.id" :class="['msg',cssTag(msg.person), ``]">
+        <div v-for="msg in c?.convo" :key="msg.id" :class="['msg',cssTag(msg.person), ``]">
           <PersonBubble  :name="iconXreff?.[msg?.person]" :class="['i', cssTag(msg.person)]" />
           <p v-text="msg.msg" />
         </div>
@@ -35,6 +76,7 @@ details summary { @apply flex flex-row justify-start gap-2 py-0.5}
 details[open] { @apply from-blue-200 dark:from-blue-900 to-transparent bg-gradient-to-b rounded-3xl mx-0 px-4 py-2 my-2 }
 details[open] summary { @apply px-3 scale-105 lg:px-10 }
 details .title { @apply font-bold leading-none w-full self-center }
+details .done { @apply dark:text-green-600  text-green-900 self-center }
 details .date { @apply font-light min-w-max w-40 text-right}
 details .date:after { content:' ago'; @apply font-light text-sm opacity-50 }
 details[open] .dateFull { @apply block min-w-max text-xs self-center }
