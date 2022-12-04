@@ -39,15 +39,16 @@ onMounted(()=>{ if(!devMode) loadData() })
 
 <template>
   <div class="convos">
-    <div v-if="devMode" class="flex flex-row">
+    <div v-if="devMode" class="flex flex-row flex-wrap sm:flex-nowrap mb-2 items-center">
+      <label class="px-2" v-text="'devButtons'" />
       <button 
-        class="bg-red-900 bg-opacity-40 text-orange-700 font-bold w-full" 
+        class="bg-red-900 bg-opacity-40 text-orange-700 font-bold w-full py-1" 
         @click="setData()" 
-        v-text="`DEV:setData@${dbCollection}`" />
+        v-text="`setData@${dbCollection}`" />
       <button 
-        class="bg-violet-900 bg-opacity-40 text-violet-200 font-bold w-full" 
+        class="bg-violet-900 bg-opacity-40 text-violet-200 font-bold w-full py-1" 
         @click="loadData()" 
-        v-text="`DEV:loadData@${dbCollection}`" />
+        v-text="`loadData@${dbCollection}`" />
     </div>
     <details v-for="(c,cIX) in convoRev" :key="cIX">
       <summary>
