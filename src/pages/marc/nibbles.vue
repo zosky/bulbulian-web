@@ -4,12 +4,21 @@ import {
   ArrowUpCircleOutline, ArrowDownCircleOutline, ArrowLeftCircleOutline, ArrowRightCircleOutline, CloseCircleOutline 
 } from 'mdue'
 import moment from 'moment'
+import { levelMaps } from './nibbles/levelMaps'
 const gameOn = ref(false)
 const gameAuto = ref(false)
 const gamePause = ref(false)
 const gameTimer = ref(null)
 const gameDifficulty = ref(1000)
 const score = ref(0)
+const computedScore = computed(()=>{
+  // props; https://stackoverflow.com/questions/29549836/how-to-find-the-sum-of-all-numbers-between-1-and-n-using-javascript
+  const s = score.value
+  const t = Math.floor(s/10)
+  const numSum = (n) => n * (n+1) / 2
+  const nt = numSum(s)*100 - (t*1000) // almost logRyhtmic (no 10's)
+  return nt
+})
 // fireStore scoreBoard
 const highScore = ref([])
 const dbCollection = 'nibblesHighScore' // cached @ fireBase
@@ -17,7 +26,7 @@ const localUser = inject('$localUser') // isLoggedIN ?
 // const getData = inject('$getData') // getter
 const qData = inject('$qData')
 const saveData = inject('$saveData') // setter
-const rmData = inject('$rmData') // remover
+// const rmData = inject('$rmData') // remover
 qData(dbCollection,'score',true,5)
   .then( r =>{ 
     const rSorted = r?.sort((a,b)=>a.score<b.score?1:-1)
@@ -32,9 +41,18 @@ const curY = ref(3)
 const curDirection = ref('x+')
 const tailLength = ref(3)
 const tail = ref([])
-const max = ref({x:12,y:12})
+const levelMap = ref([])
+const max = ref({x:32,y:32})
 const thisFruit = ref(null) // filled in by from one of these when playing ...
-const fruits = ['🌭','🌮','🌯','🌰','🌶️','🌽','🍄','🍅','🍆','🍇','🍈','🍉','🍊','🍋','🍌','🍍','🍎','🍏','🍑','🍒','🍓','🍔','🍕','🍖','🍗','🍘','🍛','🍦','🍨']
+const fruits = [
+  '🌭','🌮','🌯','🌰','🌶️','🌽','🍄','🍅','🍆','🍇','🍈','🍉','🍊','🍋','🍌','🍍','🍎',
+  '🍏','🍐','🍑','🍒','🍓','🍔','🍕','🍖','🍗','🍘','🍙','🍚','🍛','🍜','🍝','🍞','🍟',
+  '🍠','🍡','🍢','🍣','🍤','🍥','🍦','🍦','🍧','🍨','🍩','🍪','🍫','🍬','🍭','🍮','🍯',
+  '🍰','🍱','🍲','🍳','🍴','🍵','🍶','🍷','🍸','🍹','🍺','🍻','🍼','🍽️','🍾','🍿','🎂',
+  '🥂','🥃','🥄','🥐','🥑','🥒','🥓','🥔','🥕','🥖','🥗','🥘','🥙','🥚','🥛','🥜','🥝',
+  '🥞','🥟','🥠','🥡','🥢','🥣','🥤','🥥','🥦','🥧','🥨','🥩','🥪','🥫','🥬','🥭','🥮',
+  '🥯','🦪','🧀','🧁','🧂','🧃','🧄','🧅','🧆','🧇','🧈','🧉','🧊','🧋','🫐','🫑','🫒',
+  '🫓','🫔','🫕','🫖']
 onMounted(()=>{
   window.addEventListener('keypress', function(e) {
     e.preventDefault()
@@ -60,8 +78,9 @@ onMounted(()=>{
         gameAuto.value = k=='p'?true:false // on/off
         gameDifficulty.value = gameAuto.value ? 420 : 1000
         score.value = 0
+        levelMap.value = levelMaps[0] // "level 1"
         curDirection.value = 'x+'
-        // enable automode
+        // TODO switch leveles points/10
       }
     }
     // valid move
@@ -116,31 +135,35 @@ watchEffect(()=>{
   // fail conditions
   const xFail = x > maxXY.x || !x
   const yFail = y > maxXY.y || !y
-  const tailFail = tail.value.find(t=>t.x==x && t.y==y)
-  // console.log('x', xFail, 'y', yFail, 't', tailFail ? true : false )
-  if( xFail || yFail || tailFail ) {     
-    // console.log('GAME OVER :( timer done')
+  const tailFail = tail.value.find(t=>t?.x==x && t?.y==y)
+  const wallFail = levelMap.value.find(t=>t?.x==x && t?.y==y)
+  if( xFail || yFail || tailFail || wallFail ) {     
     clearInterval(gameTimer.value)
     gameTimer.value = null
     gameOn.value = false
+    const newHighScore = score.value > highScore?.value?.at(-1)?.score 
+    const arrFull = highScore?.value?.length == 5
     // doNewScore (if top5+loggedIN > add)
-    if (localUser?.user?.displayName && !gameAuto.value ){
-      if (score.value > highScore?.value?.[4]?.score){
+    console.log(
+      'GAME OVER // u',localUser?.user?.displayName, 
+      'auth', !gameAuto.value, 
+      'score', score.value, 
+      'LOW:',score.value > highScore?.value?.at(-1)?.score
+    )
+    if ( localUser?.user?.displayName && !gameAuto.value ){
+      // drop last if newHight && arrFull
+      if ( newHighScore && arrFull ){ highScore.value = highScore.value.slice(0,-1) }
+      if ( newHighScore ){
         const n = localUser?.user?.displayName
         const d = moment().format('X')
-        const s = score.value 
+        const s = computedScore.value //score.value 
         const o = {name:n,score:s,date:d}
-        // console.log('saving', d, o)
-        if(o) saveData( dbCollection, d, o ) // save remote
-          .then(()=>{
-            highScore.value.push(o) // inject into runState (max5)
-            highScore.value = highScore.value.sort((a,b)=>a.score>b.score?-1:1) // reSort
-          }).then(async ()=>{
-            const rmD = highScore.value[5].date
-            console.log('doRM', rmD)
-            await rmData(dbCollection,rmD)
-            highScore.value = highScore.value.slice(0,-1) // runState--
-          })
+        highScore.value.push(o) // inject into runState (max5)
+        highScore.value = highScore.value.sort((a,b)=>a.score>b.score?-1:1) // reSort
+        const rmD = highScore.value?.at(-1)?.date
+        // const savedScore = highScore.value.find(h=>h.date==o.date && h.score==o.score)
+        console.log('newHighScore', o, `full:${arrFull}`,'rm', rmD)
+        saveData( dbCollection, d, o ) // save remote
       }
     }
   }
@@ -148,8 +171,7 @@ watchEffect(()=>{
 
 
 const pickFruit = (point) => {
-  if (point) { // score++
-    tailLength.value = tailLength.value + 1
+  if (point) { // score++    
     score.value = score.value + 1
     //gameDifficulty++ (cancel timer > set new difficulty > (re)set timer
     clearInterval(gameTimer.value)
@@ -157,6 +179,15 @@ const pickFruit = (point) => {
     // linier after ~12 points
     gameDifficulty.value = newDifficulty > 200 ? newDifficulty : gameDifficulty.value - 10
     gameTimer.value = setInterval(()=>{movePlayer()}, gameDifficulty.value)
+    // load new levelMap every 10 points
+    if(score.value%10==0){
+      levelMap.value = levelMaps[score.value] // "level X"
+      gameDifficulty.value = 420
+      tailLength.value = 1
+      tail.value = []
+    } else { 
+      tailLength.value = tailLength.value + 1
+    }
   }
   // pick new fruit
   const newFruit = {
@@ -192,14 +223,15 @@ watchEffect(()=>{
   <div class="relative">
     <div id="header" class="flex flex-row gap-1 justify-between">
       <h1> nibbbles vue3 style</h1>
-      <h2 v-if="!gameOn" class="animate-pulse"> smash anyKey to begin </h2>
-      <div v-if="gameOn" class="text-red-500 px-3" v-text="`DEBUG: p:${curX}/:${curY}|f:${thisFruit?.x}/${thisFruit?.y}/d:${gameDifficulty}`"/>        
-      <h2 v-if="gameOn" class="animate-pulse"> score: <b v-text="score"/> </h2>
+      <div v-if="score" class="text-xs self-center font-mono" v-text="`level ${Math.floor(score/10)+1}`" />
+      <h2 v-if="!gameOn">Q to (re)start</h2>
+      <!-- <div v-if="gameOn" class="text-red-500 px-3" v-text="`DEBUG: p:${curX}/:${curY}|f:${thisFruit?.x}/${thisFruit?.y}/d:${gameDifficulty}`"/>         -->
+      <h2 v-if="gameOn" class="animate-pulse"> score: <b v-text="`${score} [${computedScore}]`"/> </h2>
     </div>
     <div v-if="(!gameOn || gamePause)" id="scoreBoard" class="absolute top-10 left-3 md:left-10 w-[95%] md:w-[90%] bg-blue-600 bg-opacity-40 p-3 rounded-xl z-20">
       <div :class="{'opacity-50':!score}" class="mx-3 flex flex-row justify-between bg-gray-800 bg-opacity-60 px-5 p-3 text-xl font-bold justify-between my-2 rounded-2xl ring-1">
         <div v-text="`${gameAuto?'robot':'my'} ${gamePause?'current':'last'} score`" />
-        <div class="scale-150 pr-4" v-text="score" />
+        <div class="scale-150 pr-4" v-text="computedScore" />
       </div>
       <div class="flex flex-row justify-between w-full">
         <div class="font-extralight opacity-75 px-10">live leaderBoard</div>
@@ -253,9 +285,6 @@ watchEffect(()=>{
               <ArrowRightCircleOutline />
               <div v-text="`d`"/>
             </div>
-            <!-- <div id="a" class="keyboardButton" v-text="`a`"/>
-            <div id="s" class="keyboardButton" v-text="`s`"/>
-            <div id="d" class="keyboardButton" v-text="`d`"/> -->
           </div>
         </div>
       </div>
@@ -266,22 +295,23 @@ watchEffect(()=>{
     </div>
     <div 
       id="game"
-      class="flex flex-row flex-wrap w-full max-w-3xl mx-auto"
+      class="flex flex-col w-full max-w-3xl mx-auto"
       :class="gameOn?'gameOn':'gameOff'">
-      <template v-for="y of max.y" :key="y">
+      <div v-for="y of max.y" :key="y" class="flex flex-row w-full max-w-3xl">
         <div 
           v-for="x of max.x" :key="x"
           :class="{
             gCell: true,
             tailHere: tail.find(t=>t.x==x && t.y==y),
             headHere: curX == x && curY == y,
+            wallHere: levelMap.find(t=>t.x==x && t.y==y)
           }">
           <div 
             v-if="(thisFruit?.x==x && thisFruit?.y==y)"
             id="food" 
             v-text="thisFruit.fruit"/>
         </div>
-      </template>
+      </div>
     </div>
     <button 
       id="why" 
@@ -304,12 +334,13 @@ watchEffect(()=>{
   .gCell { @apply w-1/12 h-auto aspect-1 ring-1 }
   .tailHere { @apply  rounded-xl scale-95 }
   .headHere { @apply  rounded-full scale-110 }
+  .wallHere { @apply opacity-30 bg-yellow-500 }
   .gameOn .headHere { @apply bg-sky-400 ring-sky-400 ring-1 bg-opacity-80 }
   .gameOn .tailHere { @apply bg-sky-500 bg-opacity-60 }
   .gameOff .tailHere { @apply bg-gray-800 bg-opacity-30 }
   .gameOff .headHere { @apply bg-gray-800 bg-opacity-80 }
 
-  #food { @apply text-2xl flex flex-row items-center justify-center  w-full h-full rounded-full  }
+  #food { @apply text-base scale-125 flex flex-row items-center justify-center  w-full h-full rounded-full  }
   .gameOn #food { @apply bg-green-300 animate-pulse bg-opacity-30 ring-green-600 ring-2}
   .gameOff #food { @apply bg-yellow-300 opacity-10 bg-opacity-10 }
   
