@@ -372,9 +372,9 @@ watchEffect(()=>{
           </div>
         </div>
       </div>
-      <div v-if="score" id="scoreBKG">
-        <div v-text="score" />
-      </div>
+    </div>
+    <div v-if="score" id="scoreBKG">
+      <div v-text="score" />
     </div>
   </div>
 </template>
