@@ -61,27 +61,7 @@ onMounted(()=>{
     const validMove = ['w','a','s','d'].includes(k)
     // if: init (play/auto)
     if(['q','p'].includes(k)) {
-      if(gameOn.value) { 
-        // TOGGLE > then process
-        gamePause.value = !gamePause.value 
-        if (gamePause.value) { // paused
-          clearInterval(gameTimer.value)
-        } else { // unPaused
-          gameTimer.value = setInterval(()=>{movePlayer()}, gameDifficulty.value)
-        }
-      } else { // start/reset game
-        gameOn.value = true
-        curX.value = 3
-        curY.value = 3
-        tail.value = []
-        tailLength.value = 3
-        gameAuto.value = k=='p'?true:false // on/off
-        gameDifficulty.value = gameAuto.value ? 420 : 1000
-        score.value = 0
-        levelMap.value = levelMaps[0] // "level 1"
-        curDirection.value = 'x+'
-        // TODO switch leveles points/10
-      }
+      startGame(k)
     }
     // valid move
     else if((!gameOn.value||gamePause.value) && validMove){
@@ -99,6 +79,30 @@ onMounted(()=>{
     }
   }.bind(this))
 })
+
+const startGame = (k) => { 
+  if(gameOn.value) { 
+    // TOGGLE > then process
+    gamePause.value = !gamePause.value 
+    if (gamePause.value) { // paused
+      clearInterval(gameTimer.value)
+    } else { // unPaused
+      gameTimer.value = setInterval(()=>{movePlayer()}, gameDifficulty.value)
+    }
+  } else { // start/reset game
+    gameOn.value = true
+    curX.value = 3
+    curY.value = 3
+    tail.value = []
+    tailLength.value = 3
+    gameAuto.value = k=='p'?true:false // on/off
+    gameDifficulty.value = gameAuto.value ? 420 : 1000
+    score.value = 0
+    levelMap.value = levelMaps[0] // "level 1"
+    curDirection.value = 'x+'
+    // TODO switch leveles points/10
+  }
+}
 
 const movePlayer = d =>{
   d = d ?? curDirection.value ?? 'x+'
@@ -228,16 +232,16 @@ watchEffect(()=>{
       <!-- <div v-if="gameOn" class="text-red-500 px-3" v-text="`DEBUG: p:${curX}/:${curY}|f:${thisFruit?.x}/${thisFruit?.y}/d:${gameDifficulty}`"/>         -->
       <h2 v-if="gameOn" class="animate-pulse"> score: <b v-text="`${score} [${computedScore}]`"/> </h2>
     </div>
-    <div v-if="(!gameOn || gamePause)" id="scoreBoard" class="absolute top-10 left-3 md:left-10 w-[95%] md:w-[90%] bg-blue-600 bg-opacity-40 p-3 rounded-xl z-20">
-      <div :class="{'opacity-50':!score}" class="mx-3 flex flex-row justify-between bg-gray-800 bg-opacity-60 px-5 p-3 text-xl font-bold justify-between my-2 rounded-2xl ring-1">
+    <div v-if="(!gameOn || gamePause)" id="scoreBoard" class="absolute top-10 left-3 md:left-10 w-[95%] md:w-[90%] bg-blue-900 bg-opacity-40 lg:bg-blue-900 lg:bg-opacity-80 p-3 rounded-xl z-20">
+      <div :class="{'opacity-50':!score}" class="mx-3 flex flex-row justify-between bg-gray-800 bg-opacity-60 px-5 p-3 text-xl font-bold my-2 rounded-2xl ring-1">
         <div v-text="`${gameAuto?'robot':'my'} ${gamePause?'current':'last'} score`" />
         <div class="scale-150 pr-4" v-text="computedScore" />
       </div>
       <div class="flex flex-row justify-between w-full">
-        <div class="font-extralight opacity-75 px-10">live leaderBoard</div>
+        <div class="font-extralight opacity-75 px-2 md:px-10">live leaderBoard</div>
         <div v-if="!localUser?.user?.email" class="text-xs font-mono italic text-left pr-7 self-center">*only for logged in users</div>        
       </div>
-      <div v-for="(s,ix) in highScore" :key="ix" class="flex flex-row justify-between px-10 gap-4">
+      <div v-for="(s,ix) in highScore" :key="ix" class="flex flex-row justify-between px-2 md:px-10 gap-4">
         <div class="flex flex-row gap-1">
           <div class="flex flex-row gap-2">
             <div class="rank font-bold text-right w-6 self-center" v-text="ix+1" />
@@ -258,40 +262,55 @@ watchEffect(()=>{
         </div>
         <div class="flex flex-col items-center justify-center gap-2">
           <div class="flex gap-2 ">
-            <div id="q" class="keyboardStart flex flex-row gap-1 items-center">
+            <div id="q" class="keyboardStart flex flex-row gap-1 items-center" @click="startGame()">
               <PlayCircleOutline />
-              <div v-text="`q`"/>
+              <label v-text="`q`"/>
             </div>
             <!-- ArrowDownCircleOutline, ArrowLeftCircleOutline, ArrowRightCircleOutline -->
-            <div id="w" class="keyboardButton">
+            <div id="w" class="keyboardButton" @click="(curDirection='y-')">
               <ArrowUpCircleOutline />
-              <div  v-text="`w`" />
+              <label v-text="`w`"/>
             </div>
-            <div id="q" class="keyboardStart flex flex-row gap-1 items-center ml-10">
+            <div
+              id="q" 
+              class="keyboardStart flex flex-row gap-1 items-center ml-10" 
+              :class="{ 'opacity-25': gameOn }"
+              @click="!gameOn ? startGame('p') : null">
               <RobotExcited />
-              <div v-text="`p`"/>
+              <label v-text="`p`"/>
             </div>
           </div>
           <div class="flex gap-2">
             <div id="a" class="keyboardButton">
-              <ArrowLeftCircleOutline />
-              <div v-text="`a`"/>
+              <ArrowLeftCircleOutline @click="(curDirection='x-')"/>
+              <label v-text="'a'"/>
             </div>
-            <div id="s" class="keyboardButton">
+            <div id="s" class="keyboardButton" @click="(curDirection='y-')">
               <ArrowDownCircleOutline />
-              <div v-text="`s`"/>
+              <label v-text="`s`"/>
             </div>
-            <div id="d" class="keyboardButton">
+            <div
+              id="d" class="keyboardButton"
+              @click="(curDirection='x+')">
               <ArrowRightCircleOutline />
-              <div v-text="`d`"/>
+              <label v-text="'d'"/>
             </div>
           </div>
         </div>
       </div>
-      <div class="text-center w-full text-2xl p-3 pt-3 pb-0 flex flex-row gap-2">
+      <div class="text-center w-full text-2xl p-3 pt-3 pb-0 flex-row gap-2 hidden sm:flex">
         <div class="keyboardButton start w-full" v-text="`q`"/>
         <div class="keyboardButton robot w-full" v-text="`p`"/>
       </div> 
+      <button 
+        id="why" 
+        class="p-4 flex flex-row gap-1 ring-1 mt-4 rounded-xl items-center" 
+        @click="$router.push(`/marc/nibbles${$route.name=='/marc/nibbles/why'?'':'/why'}`)">
+        <HelpCircleOutline v-if="($route.name=='/marc/nibbles')" />
+        <CloseCircleOutline v-else class="animate-spin" />
+        {{ $route.name=='/marc/nibbles' ? 'why is this here?' : 'close' }}
+      </button>
+      <router-view />
     </div>
     <div 
       id="game"
@@ -313,17 +332,49 @@ watchEffect(()=>{
         </div>
       </div>
     </div>
-    <button 
-      id="why" 
-      class="p-4 flex flex-row gap-1 ring-1 my-10 m-4 rounded-xl items-center pr-10" 
-      @click="$router.push(`/marc/nibbles${$route.name=='/marc/nibbles/why'?'':'/why'}`)">
-      <HelpCircleOutline v-if="($route.name=='/marc/nibbles')" />
-      <CloseCircleOutline v-else class="animate-spin" />
-      {{ $route.name=='/marc/nibbles' ? 'why is this here?' : 'close' }}
-    </button>
-    <router-view />
-    <div v-if="score" id="scoreBKG">
-      <div v-text="score" />
+    <div 
+      id="mobileControl"  
+      class="mt-2 sm:hidden flex-row flex-wrap justify-center items-center gap-3 w-full py-4 border-b border-t border-blue-600"
+      :class="gameOn && !gamePause ? 'flex' : 'hidden'">
+      <div class="flex flex-col items-center justify-center gap-2">
+        <div class="flex gap-2 ">
+          <div id="q" class="keyboardStart flex flex-row gap-1 items-center" @click="startGame()">
+            <PlayCircleOutline />
+            <label v-text="`q`"/>
+          </div>
+          <!-- ArrowDownCircleOutline, ArrowLeftCircleOutline, ArrowRightCircleOutline -->
+          <div id="w" class="keyboardButton" @click="(curDirection='y-')">
+            <ArrowUpCircleOutline />
+            <label v-text="`w`"/>
+          </div>
+          <div
+            id="p" :class="{'opacity-25':gameOn}" 
+            class="keyboardStart flex flex-row gap-1 items-center ml-10" 
+            @click="()=> { if(!gameOn) { startGame(p); movePlayer() }}">
+            <RobotExcited />
+            <label v-text="`p`"/>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <div id="a" class="keyboardButton">
+            <ArrowLeftCircleOutline @click="curDirection='x-';movePlayer()"/>
+            <label v-text="'a'"/>
+          </div>
+          <div id="s" class="keyboardButton" @click="curDirection='y+';movePlayer()">
+            <ArrowDownCircleOutline />
+            <label v-text="`s`"/>
+          </div>
+          <div
+            id="d" class="keyboardButton"
+            @click="curDirection='x+';movePlayer()">
+            <ArrowRightCircleOutline />
+            <label v-text="'d'"/>
+          </div>
+        </div>
+      </div>
+      <div v-if="score" id="scoreBKG">
+        <div v-text="score" />
+      </div>
     </div>
   </div>
 </template>
@@ -340,7 +391,7 @@ watchEffect(()=>{
   .gameOff .tailHere { @apply bg-gray-800 bg-opacity-30 }
   .gameOff .headHere { @apply bg-gray-800 bg-opacity-80 }
 
-  #food { @apply text-base scale-125 flex flex-row items-center justify-center  w-full h-full rounded-full  }
+  #food { @apply text-[0.5em] md:text-base scale-125 flex flex-row items-center justify-center  w-full h-full rounded-full  }
   .gameOn #food { @apply bg-green-300 animate-pulse bg-opacity-30 ring-green-600 ring-2}
   .gameOff #food { @apply bg-yellow-300 opacity-10 bg-opacity-10 }
   
@@ -348,12 +399,13 @@ watchEffect(()=>{
   #scoreBKG { @apply 
       absolute top-0 left-0 m-auto w-full opacity-25 
       flex flex-col justify-center items-center 
-      text-[44em] font-extrabold text-center tracking-[-0.15em] leading-[1em] }
+      text-[22em] lg:text-[44em] font-extrabold text-center tracking-[-0.15em] leading-[1em] }
   .rank::before { content: '#'; @apply font-light opacity-50 }
   /* pauseMenu UX/UI */
   .keyboardButton { @apply ring-1 ring-blue-600 rounded-xl py-3 px-3 font-extrabold text-xl uppercase bg-gray-900 bg-opacity-50 flex flex-row items-center }
   .keyboardStart { @apply ring-1 ring-blue-300 rounded-xl py-3 px-3 font-extrabold text-xl uppercase bg-purple-900 bg-opacity-50 flex flex-row items-center }
-  
+  .keyboardButton label,
+  .keyboardStart label { @apply hidden sm:flex }
   .start { @apply bg-sky-800 bg-opacity-50 text-sky-200 }
   .start::after { content: ' to start & pause'; @apply font-light text-xs pl-1 }
   .robot::after { content: ' to let maths do it'; @apply font-light text-xs pl-1 }
