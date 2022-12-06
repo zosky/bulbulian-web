@@ -1,0 +1,28 @@
+<script setup>
+import articles from './blog.json' // jsonCache f/localAPI
+const dbCollection = 'chrisBlog' // cached @ fireBase
+const saveData = inject('$saveData') // setter
+const thisIX = ref(0)
+const goTime = async () => {
+  const x = thisIX.value 
+  const t = articles?.[x]
+  if(t) {
+    saveData(dbCollection,t.date,t)
+      .then(async () => { thisIX.value = thisIX.value+1 })
+      .then(async () => { await goTime() })
+  }
+}
+</script>
+
+<template>
+  <div class="px-4 max-w-7xl mx-auto flex flex-col" >
+    <!-- <button @click="$router.push('/chris/blog/PostEdit')">NEW</button> -->
+    <button @click="goTime()">dataLoader [{{thisIX}}/{{articles.length}}]</button>
+    <progress :value="thisIX" :max="articles.length" />
+  </div>
+</template>
+
+<style scoped>
+button { @apply p-3 ring-1 m-2 rounded-xl }
+progress { @apply w-full mx-2 pr-3 }
+</style>

@@ -7,7 +7,7 @@ import { createHead } from '@vueuse/head'
 // fireBase
 import { smashEvent } from './components/fireBase/analitics'
 import { doAuth, localUser } from './components/fireBase/auth'
-import { saveData, getData, qData, rmData } from './components/fireBase/fireStore'
+import { saveData, getData, qData, rDoc, rmData } from './components/fireBase/fireStore'
 import { smashToken } from './components/fireBase/messaging'
 // custom components
 import PersonBubble from './components/PersonBubble.vue'
@@ -27,6 +27,7 @@ app.component('Bulbulian',Bulbulian)
 app.provide('$smashEvent',smashEvent)
 app.provide('$smashToken',smashToken)
 app.provide('$getData',getData)
+app.provide('$rDoc',rDoc)
 app.provide('$qData',qData)
 app.provide('$saveData',saveData)
 app.provide('$rmData',rmData)

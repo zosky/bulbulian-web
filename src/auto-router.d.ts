@@ -42,6 +42,7 @@ declare module 'vue-router/auto/routes' {
     '/ben/cuteConvos': RouteRecordInfo<'/ben/cuteConvos', '/ben/cuteConvos', Record<never, never>, Record<never, never>>,
     '/chris/': RouteRecordInfo<'/chris/', '/chris', Record<never, never>, Record<never, never>>,
     '/chris/blog': RouteRecordInfo<'/chris/blog', '/chris/blog', Record<never, never>, Record<never, never>>,
+    'blog Edit': RouteRecordInfo<'blog Edit', '/chris/blog/PostEdit:thisID?', { thisID?: ParamValueZeroOrOne<true> }, { thisID?: ParamValueZeroOrOne<false> }>,
     '/chris/games/[[platform]]/': RouteRecordInfo<'/chris/games/[[platform]]/', '/chris/games/:platform?', { platform?: ParamValueZeroOrOne<true> }, { platform?: ParamValueZeroOrOne<false> }>,
     '/chris/games/full/': RouteRecordInfo<'/chris/games/full/', '/chris/games/full', Record<never, never>, Record<never, never>>,
     '/chris/games/snes': RouteRecordInfo<'/chris/games/snes', '/chris/games/snes', Record<never, never>, Record<never, never>>,
