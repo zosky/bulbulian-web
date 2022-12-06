@@ -14,7 +14,7 @@ const isBulbulian = computed(()=>localUser?.user?.email?.includes('@bulbulian.co
     <button 
       v-if="isBulbulian"
       class="absolute -top-6 right-4 flex flex-row gap-1 items-center p-2 ring-1 rounded-xl bg-blue-900 bg-opacity-75 pt-3 shadow-md shadow-sky-200 text-blue-200" 
-      @click="$router.push('/chris/blog/PostEdit')">
+      @click="$router.push('/chris/blogEdit/')">
       <BookPlusOutline />
       NEW      
     </button>
@@ -34,7 +34,7 @@ const isBulbulian = computed(()=>localUser?.user?.email?.includes('@bulbulian.co
       </summary>
       <button
         v-if="isBulbulian" class="w-full px-3 bg-yellow-500 bg-opacity-25 py-1 my-1 rounded-xl ring-1 ring-red-500 shadow-md shadow-yellow-800 hover:bg-opacity-50 hover:scale-105 transition-all"
-        @click="$router.push(`/chris/blog/PostEdit${a.date}`)">EDIT</button>
+        @click="$router.push(`/chris/blogEdit/${a.date}`)">EDIT</button>
       <pre class="max-w-full whitespace-pre-wrap" v-text="a.body" />
     <!-- <pre v-text="a" /> -->
     </details>
