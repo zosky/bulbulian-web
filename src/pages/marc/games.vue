@@ -34,16 +34,16 @@ getData('marcGamesSNES').then(r=>{ gamesSNES.value = r })
     </div>
     <details v-for="(games,console) in data" :key="console" class="p-2 ">
       <summary class="">
-        <Loading v-if="(!games.length && !search.length)" class="animate-spin text-3xl animate-pulse" />
-        <div v-else class="num" v-text="games.length" />
+        <Loading v-if="(!games?.length && !search?.length)" class="animate-spin text-3xl animate-pulse" />
+        <div v-else class="num" v-text="games?.length" />
         <GameControllers :i="console" :class="console" class="console animate" :animate="true" />
       </summary>
       <div class="blockBuster">
         <template v-for="(game,gIX) in games" :key="game.id">
           <img :src="game.img" :alt="game.name" class="game" />
           <!-- desktopShelf(*/6) || mobileShelf (*/4) -->
-          <img v-if="((gIX%6==5) || gIX == games.length-1)" :src="shelf" class="shelf hidden md:block" />
-          <img v-if="((gIX%4==3) || gIX == games.length-1)" :src="shelf" class="shelf block md:hidden" />
+          <img v-if="((gIX%6==5) || gIX == games?.length-1)" :src="shelf" class="shelf hidden md:block" />
+          <img v-if="((gIX%4==3) || gIX == games?.length-1)" :src="shelf" class="shelf block md:hidden" />
         </template>
       </div>
     </details>
