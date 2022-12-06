@@ -221,6 +221,12 @@ watchEffect(()=>{
   }
 })
 
+const isFamily = n => { 
+  const [ fName, lName ] = n.split(' ') ?? [null,null]
+  const isBulbulian = lName?.toLowerCase() == 'bulbulian'
+  const hasIcon = ['ben','mel','marc','roger','chris','amira'].find( t=>t==fName ) 
+  return isBulbulian ? hasIcon : null
+}
 </script>
 
 <template>
@@ -232,8 +238,8 @@ watchEffect(()=>{
       <!-- <div v-if="gameOn" class="text-red-500 px-3" v-text="`DEBUG: p:${curX}/:${curY}|f:${thisFruit?.x}/${thisFruit?.y}/d:${gameDifficulty}`"/>         -->
       <h2 v-if="gameOn" class="animate-pulse"> score: <b v-text="`${score} [${computedScore}]`"/> </h2>
     </div>
-    <div v-if="(!gameOn || gamePause)" id="scoreBoard" class="absolute top-10 left-3 md:left-10 w-[95%] md:w-[90%] bg-blue-900 bg-opacity-40 lg:bg-blue-900 lg:bg-opacity-80 p-3 rounded-xl z-20">
-      <div :class="{'opacity-50':!score}" class="mx-3 flex flex-row justify-between bg-gray-800 bg-opacity-60 px-5 p-3 text-xl font-bold my-2 rounded-2xl ring-1">
+    <div v-if="(!gameOn || gamePause)" id="scoreBoard">
+      <div :class="{'opacity-50':!score}" class="lastScore">
         <div v-text="`${gameAuto?'robot':'my'} ${gamePause?'current':'last'} score`" />
         <div class="scale-150 pr-4" v-text="computedScore" />
       </div>
@@ -245,15 +251,12 @@ watchEffect(()=>{
         <div class="flex flex-row gap-1">
           <div class="flex flex-row gap-2">
             <div class="rank font-bold text-right w-6 self-center" v-text="ix+1" />
-            <PersonBubble 
-              v-if="localUser?.user?.displayName.split(' ')?.[1]?.toLowerCase() == 'bulbulian'"
-              class="h-[2.1em] m-1" 
-              :name="localUser?.user?.displayName.split(' ')?.[0]" />
+            <PersonBubble v-if="isFamily(s?.name)" class="h-[2.1em] m-1" :name="isFamily(s?.name)" />
             <div v-else v-text="s.name" />
-            <div class="text-xs font-light self-center" v-text="moment(s.date,'X').fromNow()" />
+            <div class="text-xs font-light self-center" v-text="moment(s?.date,'X').fromNow()" />
           </div>
         </div>
-        <div class="font-bold text-xl" v-text="s.score" />
+        <div class="font-bold text-xl" v-text="s?.score" />
       </div>
       <div id="contolTest"  class="mt-2 flex flex-row flex-wrap justify-center items-center gap-3 w-full py-4 border-b border-t border-blue-600">
         <div class="flex flex-col justify-end items-end font-light opacity-50 -ml-10">
@@ -396,6 +399,17 @@ watchEffect(()=>{
   .gameOff #food { @apply bg-yellow-300 opacity-10 bg-opacity-10 }
   
   /* leaderBoard */
+  #scoreBoard { @apply 
+    absolute top-10 left-3 md:left-10 w-[95%] md:w-[90%] 
+    bg-blue-200 bg-opacity-40 
+    dark:bg-blue-900 dark:bg-opacity-80 
+    p-3 rounded-xl z-20    
+  }
+  .lastScore { @apply mx-3 flex flex-row justify-between 
+    px-5 p-3 text-xl font-bold my-2 rounded-2xl ring-1 
+    bg-gray-400 bg-opacity-60 
+    dark:bg-gray-800 dark:bg-opacity-60 
+  }
   #scoreBKG { @apply 
       absolute top-0 left-0 m-auto w-full opacity-25 
       flex flex-col justify-center items-center 
@@ -404,11 +418,26 @@ watchEffect(()=>{
   #scoreBKG div { @apply pt-10}
   .rank::before { content: '#'; @apply font-light opacity-50 }
   /* pauseMenu UX/UI */
-  .keyboardButton { @apply ring-1 ring-blue-600 rounded-xl py-3 px-3 font-extrabold text-xl uppercase bg-gray-900 bg-opacity-50 flex flex-row items-center }
-  .keyboardStart { @apply ring-1 ring-blue-300 rounded-xl py-3 px-3 font-extrabold text-xl uppercase bg-purple-900 bg-opacity-50 flex flex-row items-center }
+  .keyboardButton { @apply 
+    ring-1 rounded-xl py-3 px-3 font-extrabold text-xl uppercase 
+    flex flex-row items-center 
+    bg-gray-300 bg-opacity-50 
+    dark:bg-gray-900 dark:bg-opacity-50 
+    ring-blue-600 
+  }
+  .keyboardStart { @apply 
+    ring-1 rounded-xl py-3 px-3 font-extrabold text-xl uppercase flex flex-row items-center 
+    bg-purple-400 dark:bg-opacity-50
+    dark:bg-purple-900 bg-opacity-50 
+    ring-purple-300 
+  }
   .keyboardButton label,
   .keyboardStart label { @apply hidden sm:flex }
-  .start { @apply bg-sky-800 bg-opacity-50 text-sky-200 }
+  .start { @apply 
+    bg-opacity-50 
+    bg-sky-300 text-blue-900
+    dark:bg-sky-800 dark:text-sky-200 
+  }
   .start::after { content: ' to start & pause'; @apply font-light text-xs pl-1 }
   .robot::after { content: ' to let maths do it'; @apply font-light text-xs pl-1 }
   .keyBlink { animation: keyPulse 125ms linear; @apply bg-opacity-75 }
