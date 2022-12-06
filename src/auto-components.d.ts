@@ -19,6 +19,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TopNav: typeof import('./components/TopNav.vue')['default']
+    TopNavNotifications: typeof import('./components/TopNavNotifications.vue')['default']
     TopNavPeople: typeof import('./components/TopNavPeople.vue')['default']
     YouTube: typeof import('./components/YouTube.vue')['default']
   }

@@ -32,6 +32,7 @@ if( t=='dark' ) document.documentElement.classList.add('dark')
       <div class="rSide">
         <TopNavPeople class="peeps" />
         <GoogleLogin />
+        <TopNavNotifications />
         <ThemeLightDark class="darkLight" @click="goTime()" />
       </div>
     </div>
