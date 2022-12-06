@@ -399,7 +399,9 @@ watchEffect(()=>{
   #scoreBKG { @apply 
       absolute top-0 left-0 m-auto w-full opacity-25 
       flex flex-col justify-center items-center 
-      text-[22em] lg:text-[44em] font-extrabold text-center tracking-[-0.15em] leading-[1em] }
+      text-[22em] lg:text-[44em] font-extrabold text-center tracking-[-0.15em] leading-[1em]
+      select-none z-0 }
+  #scoreBKG div { @apply pt-10}
   .rank::before { content: '#'; @apply font-light opacity-50 }
   /* pauseMenu UX/UI */
   .keyboardButton { @apply ring-1 ring-blue-600 rounded-xl py-3 px-3 font-extrabold text-xl uppercase bg-gray-900 bg-opacity-50 flex flex-row items-center }
