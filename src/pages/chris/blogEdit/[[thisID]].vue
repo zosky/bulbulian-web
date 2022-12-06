@@ -8,12 +8,13 @@
 <script setup>
 // globals
 import { BookPlusOutline, CheckboxMarkedCircle, Lock } from 'mdue'
+import moment from 'moment'
 const saveData = inject('$saveData') // setter
 const rDoc = inject('$rDoc') // setter
 const route = useRoute()
 // vars
 const title = ref(null)
-const date = ref(null)
+const date = ref(moment().format('YYYY-MM-DD'))
 const body = ref(null)
 const saved = ref(false)
 const isReady = computed(()=> title.value && date.value && body.value )
@@ -40,7 +41,7 @@ if(route.params?.thisID){
 
 <template>
   <form>
-    <div class="px-3 opacity-30 pt-2">{{$route?.params?.thisID?'editPost':'newPost'}}</div>
+    <div class="px-3 opacity-30 pt-2">{{$route?.params?.thisID?.length?'editPost':'newPost'}}</div>
     <input id="title" v-model="title" name="title" :placeholder="'title'" />
     <label  :class="{ 'opacity-25': $route?.params?.thisID }" class="flex flex-row py-1">
       <Lock v-if="$route?.params?.thisID" class="ml-2 -mr-3" />
@@ -48,7 +49,7 @@ if(route.params?.thisID){
         id="date" v-model="date"
         name="date" type="date"
         :placeholder="'date'" 
-        :disabled="$route?.params?.thisID"/>
+        :disabled="$route?.params?.thisID?.length"/>
     </label>
     <textarea v-model="body" :placeholder="'body'" class="h-96" />
     <button
@@ -66,5 +67,4 @@ if(route.params?.thisID){
   #title { @apply text-xl font-bold  }
   #date { @apply text-xs border-0 -mt-2 -mb-2 }
   textarea { @apply bg-transparent rounded-xl my-2 }
-
 </style>
