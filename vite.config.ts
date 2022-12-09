@@ -23,7 +23,12 @@ export default defineConfig({
       dts: 'src/auto-components.d.ts',
     }),
     AutoImport({ 
-      imports: ['vue', '@vueuse/head', VueRouterAutoImports],
+      imports: ['vue', '@vueuse/head', VueRouterAutoImports, 
+        { 'vue-toastification': [ 'useToast' ] }
+      ],
+      dirs: [
+        './src/hooks/**'
+      ],
       dts: 'src/auto-imports.d.ts', }),
     Markdown({ 
       headEnabled: true,

@@ -1,0 +1,14 @@
+/* toastify RECOLOR */
+
+.toastReshade.Vue-Toastification__toast--default { @apply bg-blue-600 }
+.toastReshade.Vue-Toastification__toast--info { @apply bg-blue-600 }
+.toastReshade.Vue-Toastification__toast--success { @apply bg-green-600   }
+.toastReshade.Vue-Toastification__toast--error { @apply bg-red-500 }
+.toastReshade.Vue-Toastification__toast--warning { @apply bg-yellow-400  }
+
+.toastReshade.Vue-Toastification__toast { @apply 
+    bg-opacity-50 backdrop-blur shadow-md shadow-gray-500 
+    dark:text-gray-200 text-gray-800
+  }
+
+.toastReshade.Vue-Toastification__toast .Vue-Toastification__icon {@apply scale-[2] }

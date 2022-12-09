@@ -40,7 +40,8 @@ module.exports = {
     onMounted: 'readonly',
     useHead: 'readonly',
     useRouter: 'readonly',
-    useRoute: 'readonly'
-  }
+    useRoute: 'readonly',
+    useToast: 'readonly',
+  },
 }
   

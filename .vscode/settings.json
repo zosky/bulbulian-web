@@ -11,6 +11,7 @@
   "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "indentRainbow.colorOnWhiteSpaceOnly": true,
   "cSpell.words": [
+    "Firestore",
     "Harddisk",
     "linebreak",
     "mdue",
