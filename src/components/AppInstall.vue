@@ -2,6 +2,8 @@
 // heavily inspired by (/lifted from)
 // PROPS: https://web.dev/codelab-make-installable/
 import { Download } from 'mdue'
+const msgCache = inject('$msgCache')
+const toast = useToast()
 const isHidden = ref(true)
 
 onMounted(()=>{
@@ -10,24 +12,32 @@ onMounted(()=>{
     navigator.serviceWorker.register('/service-worker.js')
   }
   window.addEventListener('beforeinstallprompt', (event) => {
-    console.log('👍', 'beforeinstallprompt', event)
+    // console.log('👍', 'beforeinstallprompt', event)
     event.preventDefault() // Prevent the mini-infobar from appearing on mobile.
     window.deferredPrompt = event // Stash the event so it can be triggered later.
     isHidden.value = false // Remove the 'hidden' class from the install button container.
+    const msg = { 
+      title: 'install today',
+      body: '"you may be missing some of the benefits stereo can provide 🎶 waa waa! 🎶"',
+      icon: Download, 
+      id:'install'
+    }
+    msgCache?.value?.push(msg)
+    toast('install today ?', { timeout: 7.2*1000, type: 'info' })
   })
-  window.addEventListener('appinstalled', (event) => {
-    console.log('👍', 'appinstalled', event)
+  window.addEventListener('appinstalled', () => {
+    // console.log('👍', 'appinstalled', event)
     // Clear the deferredPrompt so it can be garbage collected
     window.deferredPrompt = null
   })  
 })
 const installGoTime = async () => {
-  console.log('👍', 'butInstall-clicked')
+  // console.log('👍', 'butInstall-clicked')
   const promptEvent = window.deferredPrompt
   if (!promptEvent) return // The deferred prompt isn't available.
   promptEvent.prompt() // (else) Show the install prompt.
-  const result = await promptEvent.userChoice // Log the result
-  console.log('👍', 'userChoice', result)
+  await promptEvent.userChoice // Log the result
+  // console.log('👍', 'userChoice', result)
   window.deferredPrompt = null // Reset the deferred prompt variable, since prompt() can only be called once.
   isHidden.value = true // Hide the install button.
 }

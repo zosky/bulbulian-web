@@ -2,9 +2,12 @@
 import { AccountBox, AccountQuestionOutline, Google, LoginVariant, ClockAlertOutline } from 'mdue'
 import moment from 'moment'
 const localUser = inject('$localUser') // "ref({isLoading,hasFailed,user:{email,displayName,photoUrl,lastLoginAt...}})
-// methods
 const doAuth = inject('$doAuth') // sauce
-const loginWithGoogle = async () => { await doAuth() } // do theSauce
+const saveToken = inject('$saveToken') // get FCM token
+// methods
+const loginWithGoogle = async () => { 
+  await doAuth().then((r)=> saveToken(r.user))
+}
 const logoutNow = async() => { // unDo sauce (after confirm)
   const ask = await confirm('logout ?')
   if(ask) await doAuth(true)
@@ -13,7 +16,7 @@ const logoutNow = async() => { // unDo sauce (after confirm)
 
 <template>
   <div class="h-min my-auto">
-    <button v-if="!localUser?.user?.uid" class="login" @click="loginWithGoogle">
+    <button v-if="!localUser?.user?.uid" class="login" @click="loginWithGoogle()">
       <div class="icons">
         <AccountQuestionOutline />
         <LoginVariant />

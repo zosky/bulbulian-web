@@ -17,6 +17,7 @@ app.use(head)
 app.use(Toast, toastOptions) // from ./hooks/toaster.ts
 app.provide('$smashEvent',smashEvent)
 app.provide('$smashToken',smashToken)
+app.provide('$saveToken',saveToken)
 app.provide('$getData',getData)
 app.provide('$rDoc',rDoc)
 app.provide('$qData',qData)

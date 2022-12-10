@@ -1,18 +1,23 @@
 <script setup>
 import { AlertCircleOutline, CloseCircle } from 'mdue'
-// import { msgCache } from './fireBase/messaging'
-import PersonBubbleBen from './PersonBubblePerPerson/PersonBubbleBen.vue'
-// import PersonBubbleMarc from './PersonBubblePerPerson/PersonBubbleBen.vue'
 const msgCache = inject('$msgCache')
+const doAuth = inject('$doAuth') // sauce
+const saveToken = inject('$saveToken') // get FCM token
 const mCache = computed( ()=> msgCache?.value )
-const rmNote = ix => { msgCache.value.splice(ix,1) }
 
-// debug: inject fake notifications
+// (inject/unInject) notifications into tray
 const addNote = newNote => msgCache?.value?.find(m=>m.title==newNote.title) 
   ? null : msgCache?.value?.push(newNote)
-
-addNote( { title: 'hello world 1', body: 'test1', image: '/favicon.svg', type: 'error' })
-addNote( { title: 'hello world 2', body: 'test1', icon: PersonBubbleBen , type: 'info' })
+const rmNote = ix => { msgCache.value.splice(ix,1) }
+// getToken ? save : notice
+inject('$smashToken')()
+  .then(()=> doAuth() )
+  .then(r => saveToken(r.user))
+  .catch(()=> addNote({
+    title:'notifications?',
+    body:'login to enable',
+    icon: AlertCircleOutline
+  }))
 
 </script>
 
@@ -25,10 +30,11 @@ addNote( { title: 'hello world 2', body: 'test1', icon: PersonBubbleBen , type: 
     <ul>
       <li 
         v-for="(n,nIX) of mCache" :key="nIX" 
-        class="Toastification__toast Vue-Toastification__toast top-right toastReshade"
-        :class="`Vue-Toastification__toast--${n.type}`">
+        class="Vue-Toastification__toast top-right toastReshade"
+        :class="`Vue-Toastification__toast--${n?.type??'info'}`"
+        @click="n?.id=='install'?doAuth():''">
         <img v-if="n?.image" :src="n.image" />
-        <component :is="n.icon" v-else />
+        <component :is="n.icon" v-else class="h-8 w-8 mr-1 scale-125 origin-right" />
         <div class="Vue-Toastification__toast-body custom-body">
           <div class="t" v-text="n?.title" />
           <div class="b" v-text="n?.body" />
@@ -54,19 +60,11 @@ ul { @apply
   flex flex-col justify-start items-center h-full min-w-max
 }
 li { @apply flex flex-row items-center }
-/* li { @apply 
-    flex flex-row justify-end my-2 gap-1
-    bg-blue-900 rounded-lg ring-1 
-    shadow-sm shadow-sky-300 
-    pl-3 transition-all relative
-    hover:hue-rotate-15 hover:scale-105
-} */
 .txt { @apply text-right }
  .t { @apply font-extrabold text-lg -mb-1 }
- .b { @apply font-light text-sm leading-none }
+ .b { @apply font-light text-sm leading-none max-w-[18rem] }
 img { @apply h-[2em] scale-125 origin-right mr-2 }
 .close { @apply 
-  /* absolute -top-2 -left-2 */
   hover:text-yellow-400 transition-all
   animate-spin
 }
