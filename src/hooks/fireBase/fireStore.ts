@@ -1,12 +1,12 @@
 import { app } from './initApp'
-import { getFirestore, collection, doc, setDoc, getDocs, getDoc, deleteDoc, query, orderBy, limit } from 'firebase/firestore'
+import { getFirestore, collection, doc, setDoc, getDocs, getDoc, deleteDoc, query, where , orderBy, limit, type WhereFilterOp } from 'firebase/firestore'
 // init:fireBase:db
 const db = getFirestore(app)
 const saveData = async (dbCollection:string,docName:string,data:object) => {
-  console.log('saving', dbCollection, data)
+  // console.log('saving', dbCollection, data)
   try {
-    await setDoc(doc(db,dbCollection,docName),data)
-    console.log('done')
+    await setDoc(doc(db,dbCollection,docName),data,{merge:true})
+    // console.log('done')
   } catch (e) {
     console.error('Error adding document: ', e)
   }
@@ -24,6 +24,20 @@ const qData = async (dbCollection:string,order:string,desc=false,max:number) =>{
   querySnapshot.forEach((doc) => { docs.push(doc.data()) })
   return docs
 }
+const fData = async (
+  dbCollection:string,
+  field:string,
+  operator:WhereFilterOp,
+  value:string,
+  order:string,
+  desc=false,max:number
+) =>{
+  const q = query(collection(db,dbCollection), where(field,operator,value), orderBy(order,desc?'desc':'asc'), limit(max))
+  const querySnapshot = await getDocs(q)
+  const docs: object[] = []
+  querySnapshot.forEach((doc) => { docs.push(doc.data()) })
+  return docs
+}
 const rDoc = async (dbCollection:string,docName:string) => {
   const d = doc(db, dbCollection, docName)
   const r = await getDoc(d)
@@ -35,4 +49,4 @@ const rmData = async (dbCollection:string,docName:string) => {
 }
 
 // share
-export { saveData, getData, qData, rmData, rDoc }
+export { saveData, getData, qData, fData, rmData, rDoc }
