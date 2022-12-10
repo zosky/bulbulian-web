@@ -44,6 +44,7 @@ const intros = {
       </div>
       <FamLogo />
     </div>
+    <GamePlayHistory class="max-w-7xl mx-auto" />
     <AboutApp />
   </div>
 
