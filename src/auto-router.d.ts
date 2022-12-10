@@ -51,9 +51,11 @@ declare module 'vue-router/auto/routes' {
     '/marc/': RouteRecordInfo<'/marc/', '/marc', Record<never, never>, Record<never, never>>,
     '/marc/appHowTo': RouteRecordInfo<'/marc/appHowTo', '/marc/appHowTo', Record<never, never>, Record<never, never>>,
     '/marc/games': RouteRecordInfo<'/marc/games', '/marc/games', Record<never, never>, Record<never, never>>,
+    '/marc/gamesAll': RouteRecordInfo<'/marc/gamesAll', '/marc/gamesAll', Record<never, never>, Record<never, never>>,
     '/marc/nibbles': RouteRecordInfo<'/marc/nibbles', '/marc/nibbles', Record<never, never>, Record<never, never>>,
     '/marc/nibbles/why': RouteRecordInfo<'/marc/nibbles/why', '/marc/nibbles/why', Record<never, never>, Record<never, never>>,
     '/marc/other/paramExample': RouteRecordInfo<'/marc/other/paramExample', '/marc/other/paramExample', Record<never, never>, Record<never, never>>,
+    '/marc/other/TestingNewFeatures': RouteRecordInfo<'/marc/other/TestingNewFeatures', '/marc/other/TestingNewFeatures', Record<never, never>, Record<never, never>>,
     '/mel/': RouteRecordInfo<'/mel/', '/mel', Record<never, never>, Record<never, never>>,
     '/roger/': RouteRecordInfo<'/roger/', '/roger', Record<never, never>, Record<never, never>>,
   }
