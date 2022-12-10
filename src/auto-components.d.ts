@@ -28,7 +28,6 @@ declare module '@vue/runtime-core' {
     PersonBubbleMarc: typeof import('./components/PersonBubblePerPerson/PersonBubbleMarc.vue')['default']
     PersonBubbleMel: typeof import('./components/PersonBubblePerPerson/PersonBubbleMel.vue')['default']
     PersonBubbleRoger: typeof import('./components/PersonBubblePerPerson/PersonBubbleRoger.vue')['default']
-    README: typeof import('./components/PersonBubblePerPerson/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TopNav: typeof import('./components/TopNav.vue')['default']

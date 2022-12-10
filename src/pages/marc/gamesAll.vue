@@ -1,5 +1,5 @@
 <script setup>
-import { GamepadVariant, Loading } from 'mdue'
+import { GamepadVariant } from 'mdue'
 import { getStorage, ref as fbRef, getDownloadURL } from 'firebase/storage'
 const getData = inject('$getData')
 

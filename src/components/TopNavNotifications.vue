@@ -6,8 +6,8 @@ const saveToken = inject('$saveToken') // get FCM token
 const mCache = computed( ()=> msgCache?.value )
 
 // (inject/unInject) notifications into tray
-const addNote = newNote => msgCache?.value?.find(m=>m.title==newNote.title) 
-  ? null : msgCache?.value?.push(newNote)
+// const addNote = newNote => msgCache?.value?.find(m=>m.title==newNote.title) 
+//   ? null : msgCache?.value?.push(newNote)
 const rmNote = ix => { msgCache.value.splice(ix,1) }
 // getToken ? save : notice
 const thisToken = ref(null)

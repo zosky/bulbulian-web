@@ -38,8 +38,8 @@ const goTimeMod = () => goTimeHack(
   {content:'hacked',options:{type:'warning',timeout:12121}}
 )
 
-const last5games = ref([])
-const qData = inject('$qData')
+// const last5games = ref([])
+// const qData = inject('$qData')
 // qData('marc/games/lutris','lastplayed',true,5).then(r=>{last5games.value=r})
 
 </script>
