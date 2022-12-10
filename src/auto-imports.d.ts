@@ -26,6 +26,7 @@ declare global {
   const localUser: typeof import('./hooks/fireBase/auth')['localUser']
   const markRaw: typeof import('vue')['markRaw']
   const msgCache: typeof import('./hooks/fireBase/messaging')['msgCache']
+  const newMoment: typeof import('./hooks/newMoment')['newMoment']
   const nextTick: typeof import('vue')['nextTick']
   const onActivated: typeof import('vue')['onActivated']
   const onBeforeMount: typeof import('vue')['onBeforeMount']

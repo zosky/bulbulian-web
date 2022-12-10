@@ -1,7 +1,7 @@
 <script setup>
 import { getStorage, ref as fbRef, getDownloadURL } from 'firebase/storage'
 import { Loading, CalendarBlankOutline, DownloadCircleOutline, GamepadCircleOutline, Linux, GlassWine } from 'mdue'
-import moment from 'moment'
+const moment = newMoment() // init dayJS
 const last5games = ref([])
 const fData = inject('$fData')
 
@@ -57,11 +57,11 @@ const formatPlaytime = h => {
           </div>
           <div class="text-lg">
             <GamepadCircleOutline />
-            <h3 v-text="moment(game.lastplayed,'X').format('MMM Do')" />
+            <h3 v-text="moment(game.lastplayed,'X').format('MMM D')" />
           </div>
           <div class="text-base font-light -mt-3">
             <DownloadCircleOutline class="scale-125" />
-            <h4 v-text="moment(game.installed_at,'X').format('MMM Do YYYY')" />
+            <h4 v-text="moment(game.installed_at,'X').format('MMM D YYYY')" />
           </div>
           <div>
             <Linux v-if="game.platform == 'Linux'" class="mix-blend-difference text-yellow-300 w-12 h-12 -rotate-12 -mr-6" />

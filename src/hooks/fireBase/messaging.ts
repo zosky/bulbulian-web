@@ -4,7 +4,7 @@ import { TYPE } from 'vue-toastification'
 import { saveData } from './fireStore'
 import type { Ref } from 'vue'
 import type { User } from 'firebase/auth'
-import moment from 'moment'
+const moment = newMoment() // init dayJS
 
 // init:Firebase:message
 const messaging = getMessaging(app)

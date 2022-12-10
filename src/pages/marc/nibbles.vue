@@ -3,8 +3,8 @@ import {
   PlayCircleOutline, RobotExcited, HelpCircleOutline,
   ArrowUpCircleOutline, ArrowDownCircleOutline, ArrowLeftCircleOutline, ArrowRightCircleOutline, CloseCircleOutline 
 } from 'mdue'
-import moment from 'moment'
 import { levelMaps } from './nibbles/levelMaps'
+const moment = newMoment() // init dayJS
 const gameOn = ref(false)
 const gameAuto = ref(false)
 const gamePause = ref(false)

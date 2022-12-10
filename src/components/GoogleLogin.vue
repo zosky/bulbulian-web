@@ -1,6 +1,6 @@
 <script setup>
 import { AccountBox, AccountQuestionOutline, Google, LoginVariant, ClockAlertOutline } from 'mdue'
-import moment from 'moment'
+const moment = newMoment() // init dayJS
 const localUser = inject('$localUser') // "ref({isLoading,hasFailed,user:{email,displayName,photoUrl,lastLoginAt...}})
 const doAuth = inject('$doAuth') // sauce
 const saveToken = inject('$saveToken') // get FCM token

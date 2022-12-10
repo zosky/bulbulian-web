@@ -1,6 +1,6 @@
 <script setup>
-import moment from 'moment'
 import { BookPlusOutline, TrashCanOutline, BookEditOutline } from 'mdue'
+const moment = newMoment() // init dayJS
 const dbCollection = 'chrisBlog' // cached @ fireBase
 const localUser = inject('$localUser') // isLoggedIN ?
 const qData = inject('$qData') // getter

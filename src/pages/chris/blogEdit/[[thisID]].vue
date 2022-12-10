@@ -8,7 +8,7 @@
 <script setup>
 // globals
 import { BookPlusOutline, CheckboxMarkedCircle, Lock } from 'mdue'
-import moment from 'moment'
+const moment = newMoment() // init dayJS
 const saveData = inject('$saveData') // setter
 const rDoc = inject('$rDoc') // setter
 const route = useRoute()

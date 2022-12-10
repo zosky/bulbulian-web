@@ -2,7 +2,8 @@
 import { Firebase } from 'mdue'
 import PersonBubbleBen from '/src/components/PersonBubblePerPerson/PersonBubbleBen.vue'
 import PersonBubbleMel from '/src/components/PersonBubblePerPerson/PersonBubbleMel.vue'
-// import moment from 'moment'
+
+// const moment = newMoment() // init dayJS
 
 // GET FILE f/ fireStorage
 // import { getStorage, ref as fbRef, getDownloadURL } from 'firebase/storage'

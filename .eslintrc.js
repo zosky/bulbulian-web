@@ -42,6 +42,6 @@ module.exports = {
     useRouter: 'readonly',
     useRoute: 'readonly',
     useToast: 'readonly',
+    newMoment: 'readonly',
   },
 }
-  

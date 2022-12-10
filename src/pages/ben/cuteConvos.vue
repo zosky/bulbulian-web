@@ -1,8 +1,8 @@
 <script setup>
 import { CheckboxMarkedCircle } from 'mdue'
-import moment from 'moment'
-// fireBaseDB
 import jsonConvos from './cuteConvos.json' // jsonCache f/localAPI
+const moment = newMoment() // init dayJS
+// fireBaseDB
 const dbCollection = 'BenCuteConvos' // cached @ fireBase
 const getData = inject('$getData') // getter
 const saveData = inject('$saveData') // setter
@@ -11,7 +11,7 @@ const devMode = import.meta.env.MODE == 'development'
 const iconXreff = { ben: 'ben', dad: 'marc', mom: 'mel' }
 const convos = ref(devMode?jsonConvos:[])
 const thisIX = ref(0) // used to loop through data @ loading
-// if(!devMode) getData(dbCollection).then(r=>{ convos.value = r })
+if(!devMode) getData(dbCollection).then(r=>{ convos.value = r })
 const convoRev = computed( ()=> {
   const c = convos?.value
   return c?.length ? c?.sort((a,b)=>a.date<b.date?1:-1) : []
@@ -55,7 +55,7 @@ onMounted(()=>{ if(!devMode) loadData() })
         <CheckboxMarkedCircle v-if="c?.done" class="done" />
         <div class="title" v-text="c?.title" />
         <div class="date" v-text="moment(c?.date).fromNow(true)" />
-        <div class="dateFull" v-text="moment(c?.date).format('YY MMM. Do')" />
+        <div class="dateFull" v-text="moment(c?.date).format('YY MMM. D')" />
       </summary>
       <div class="convo">
         <div v-for="msg in c?.convo" :key="msg.id" :class="['msg',cssTag(msg.person), ``]">
