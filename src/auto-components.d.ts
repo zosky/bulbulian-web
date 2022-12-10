@@ -16,9 +16,10 @@ declare module '@vue/runtime-core' {
     ControllerPS3guitar: typeof import('./components/controllers/ControllerPS3guitar.vue')['default']
     ControllerPS3move: typeof import('./components/controllers/ControllerPS3move.vue')['default']
     ControllerSNES: typeof import('./components/controllers/ControllerSNES.vue')['default']
+    FamilyTree: typeof import('./components/homePage/FamilyTree.vue')['default']
     FamLogo: typeof import('./components/svg/FamLogo.vue')['default']
     GameControllers: typeof import('./components/controllers/GameControllers.vue')['default']
-    GamePlayHistory: typeof import('./components/GamePlayHistory.vue')['default']
+    GamePlayHistory: typeof import('./components/homePage/GamePlayHistory.vue')['default']
     GoogleLogin: typeof import('./components/GoogleLogin.vue')['default']
     NavPersonPages: typeof import('./components/NavPersonPages.vue')['default']
     PersonBubble: typeof import('./components/PersonBubble.vue')['default']
@@ -33,6 +34,7 @@ declare module '@vue/runtime-core' {
     TopNav: typeof import('./components/TopNav.vue')['default']
     TopNavNotifications: typeof import('./components/TopNavNotifications.vue')['default']
     TopNavPeople: typeof import('./components/TopNavPeople.vue')['default']
+    WildWaterKingdom: typeof import('./components/homePage/WildWaterKingdom.vue')['default']
     YouTube: typeof import('./components/YouTube.vue')['default']
   }
 }

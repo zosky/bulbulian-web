@@ -24,7 +24,7 @@ const formatPlaytime = h => {
 </script>
 
 <template>
-  <div class="flex flex-col p-3">
+  <div class="flex flex-col p-3 max-w-7xl mx-auto">
     <div class="header">
       <PersonBubble name="ben" class="i" />
       <div class="tLabel" v-text="'&'" />
