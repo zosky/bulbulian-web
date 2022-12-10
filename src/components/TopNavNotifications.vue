@@ -1,7 +1,7 @@
 <script setup>
 import { AlertCircleOutline, CloseCircle } from 'mdue'
 const msgCache = inject('$msgCache')
-const doAuth = inject('$doAuth') // sauce
+const localUser = inject('$localUser') // getUser
 const saveToken = inject('$saveToken') // get FCM token
 const mCache = computed( ()=> msgCache?.value )
 
@@ -10,14 +10,29 @@ const addNote = newNote => msgCache?.value?.find(m=>m.title==newNote.title)
   ? null : msgCache?.value?.push(newNote)
 const rmNote = ix => { msgCache.value.splice(ix,1) }
 // getToken ? save : notice
-inject('$smashToken')()
-  .then(()=> doAuth() )
-  .then(r => saveToken(r.user))
-  .catch(()=> addNote({
-    title:'notifications?',
-    body:'login to enable',
-    icon: AlertCircleOutline
-  }))
+const thisToken = ref(null)
+inject('$smashToken')().then(t=>thisToken.value=t)
+
+// save if token and user 
+watchEffect(()=>{
+  const u = localUser?.user
+  const t = thisToken.value
+  // console.log('U+T DEBUG', u, t)
+  if(u?.uid && t){ 
+    console.log('✅ 👱 🗯️ 💾')
+    saveToken(u) 
+  }
+})
+
+const installGoTime = async () => {
+  const promptEvent = window.deferredPrompt
+  if (!promptEvent) return // The deferred prompt isn't available.
+  promptEvent.prompt() // (else) Show the install prompt.
+  await promptEvent.userChoice // Log the result
+  window.deferredPrompt = null // Reset the deferred prompt variable, since prompt() can only be called once.
+  const instalMsgIX = msgCache.value.findIndex(n=>n.id=='install')
+  rmNote(instalMsgIX)
+}
 
 </script>
 
@@ -32,7 +47,7 @@ inject('$smashToken')()
         v-for="(n,nIX) of mCache" :key="nIX" 
         class="Vue-Toastification__toast top-right toastReshade"
         :class="`Vue-Toastification__toast--${n?.type??'info'}`"
-        @click="n?.id=='install'?doAuth():''">
+        @click="n?.id=='install'?installGoTime():''">
         <img v-if="n?.image" :src="n.image" />
         <component :is="n.icon" v-else class="h-8 w-8 mr-1 scale-125 origin-right" />
         <div class="Vue-Toastification__toast-body custom-body">

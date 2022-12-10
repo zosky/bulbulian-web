@@ -3,7 +3,7 @@
 // PROPS: https://web.dev/codelab-make-installable/
 import { Download } from 'mdue'
 const msgCache = inject('$msgCache')
-const toast = useToast()
+// const toast = useToast()
 const isHidden = ref(true)
 
 onMounted(()=>{
@@ -23,7 +23,11 @@ onMounted(()=>{
       id:'install'
     }
     msgCache?.value?.push(msg)
-    toast('install today ?', { timeout: 7.2*1000, type: 'info' })
+    // toast('install today ?', { 
+    //   timeout: 7.2*1000, 
+    //   type: 'info', 
+    //   id: 'install',
+    // })
   })
   window.addEventListener('appinstalled', () => {
     // console.log('👍', 'appinstalled', event)
