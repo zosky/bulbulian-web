@@ -5,7 +5,7 @@ import moment from 'moment'
 const last5games = ref([])
 const fData = inject('$fData')
 
-fData('marc/games/lutris','hidden','==',0,'lastplayed',true,5)
+fData('marc/games/lutris','hidden','==',0,'lastplayed',true,6)
   .then(async r=>{
     last5games.value = r?.map( g => g = 
     { ...g, imgRef:`games/lutris/coverart/${g.slug}.jpg` })
@@ -78,7 +78,7 @@ const formatPlaytime = h => {
 <style scoped>
   .header { @apply p-3 flex flex-row items-center gap-1 w-full text-4xl font-extrabold -mb-4 z-[3] }
   .header .i { @apply aspect-1 h-[1em]   }
-  .cards { @apply grid grid-cols-5 gap-2 z-[2] w-full }
+  .cards { @apply grid grid-cols-2 md:grid-cols-6 gap-2 z-[2] w-full }
   .game { @apply rounded-sm shadow-md }
 /* CARD FLIP: tailwind-afied++ by moi
  * [OG props](https://codepen.io/aron-tw/pen/pLJqgE)
