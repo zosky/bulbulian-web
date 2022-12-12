@@ -1,20 +1,18 @@
 <script setup>
-import { getStorage, ref as fbRef, getDownloadURL } from 'firebase/storage'
 import { Loading, CalendarBlankOutline, DownloadCircleOutline, GamepadCircleOutline, Linux, GlassWine } from 'mdue'
+import jsonData from '../../json/lutris.json'
 const moment = newMoment() // init dayJS
-const last5games = ref([])
-const fData = inject('$fData')
+const last5games = ref(
+  jsonData ?.filter(g=>!g.hidden)
+    ?.sort((a,b)=>a.lastplayed>b.lastplayed?-1:1)
+    ?.slice(0,6)    
+  // add images
+    ?.map( 
+      g => g = { ...g, img: new URL(`/public/images/games/lutris/coverart/${g.slug}.jpg`,import.meta.url).href }
+    )
 
-fData('marc/games/lutris','hidden','==',0,'lastplayed',true,6)
-  .then(async r=>{
-    last5games.value = r?.map( g => g = 
-    { ...g, imgRef:`games/lutris/coverart/${g.slug}.jpg` })
-    for (const g of last5games.value){ 
-      const fileRel = fbRef(getStorage(),g.imgRef)
-      g.img = await getDownloadURL(fileRel).catch(()=> null)
-      delete g.imgRef
-    }
-  })
+)
+
 const formatPlaytime = h => { 
   const hs = Math.floor(h)
   const mR = Math.round((h-hs) * 60)

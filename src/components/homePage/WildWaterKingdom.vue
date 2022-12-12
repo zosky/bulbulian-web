@@ -1,8 +1,19 @@
+<script setup>
+const devMode = import.meta.env.MODE=='development'?0:1
+const url = [
+  'https://youtube.com/embed/Y9EIzsrFp-c',
+  `?autoplay=${devMode}`,
+  `&playsinline=${devMode}`,
+  '&mute=1',
+  '&controls=1',
+  '&autohide=1',
+  '&showinfo=0',
+  '&rel=0'
+].join('')
+</script>
 <template>
   <div class="wrap">
-    <iframe
-      src="https://youtube.com/embed/Y9EIzsrFp-c?autoplay=1&mute=1&playsinline=1&controls=1&showinfo=0&autohide=1&rel=0">
-    </iframe>
+    <iframe :src="url" />
     <div class="label">
       <div>
         <PersonBubble name="marc" class="i" />

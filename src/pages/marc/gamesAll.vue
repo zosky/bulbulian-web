@@ -1,9 +1,10 @@
 <script setup>
 import { GamepadVariant } from 'mdue'
-import { getStorage, ref as fbRef, getDownloadURL } from 'firebase/storage'
-const getData = inject('$getData')
+import gamesPS3 from '../../json/ps3.json'
+import gamesSNES from '../../json/snes.json'
+import gamesLutris from '../../json/lutris.json'
 
-const shelf = new URL('./games/images/woodShelf.png',import.meta.url).href
+const shelf = new URL('/images/games/skyScrapper/woodShelf.png',import.meta.url).href
 const myGames = ref([])
 const lutrisArtStyle = ref('coverart') // TODO (banners|coverart)
 const search = ref(null)
@@ -14,42 +15,26 @@ const data = computed(()=>{
     ?.filter(g=> s ? g?.name?.toLowerCase()?.includes(s) : g?.name )
     ?.sort((a,b)=>a?.name?.toLowerCase()>b?.name?.toLowerCase()?1:-1)
     ?.slice(0,48) // TODO proper pager
-  games.forEach( g => getImage(g) )
   return games  
 })
 // ps3
-getData('marcGamesPS3').then(r=>{ 
-  myGames.value.push( 
-    r?.map( g => g = { ...g, console:'ps3', 
-      imgRef: `games/skyScraper/${g.images.cover}` 
-    })
-  )
-})
+myGames.value.push( 
+  gamesPS3?.map( g => g = { ...g, console:'ps3', 
+    img: `/images/games/skyScrapper/${g.images.cover}` 
+  })
+)
 // SNES
-getData('marcGamesSNES').then(r=>{ 
-  myGames.value.push( 
-    r?.map( g => g= { ...g, console:'snes', 
-      imgRef: `games/skyScraper/${g.cover}` 
-    })
-  )
-})
+myGames.value.push( 
+  gamesSNES?.map( g => g= { ...g, console:'snes', 
+    img: `/images/games/skyScrapper/${g.cover}` 
+  })
+)
 // lutris
-getData('marc/games/lutris').then(r=> { 
-  myGames.value.push( 
-    r?.map( g => g = { ...g, 
-      imgRef:`games/lutris/${lutrisArtStyle.value}/${g.slug}.jpg` 
-    })
-  )})
-
-const getImage = async g => { 
-  const fileRel = fbRef(getStorage(),g.imgRef)
-  const refG = myGames?.value?.flat()?.find(mg=>mg.imgRef==g.imgRef)
-  if (refG?.imgRef){
-    refG.img = await getDownloadURL(fileRel).catch(()=> null)
-    delete refG.imgRef
-  }
-}
-
+myGames.value.push( 
+  gamesLutris?.map( g => g = { ...g, 
+    img:`/images/games/lutris/${lutrisArtStyle.value}/${g.slug}.jpg` 
+  })
+)
 </script>
 
 <template>

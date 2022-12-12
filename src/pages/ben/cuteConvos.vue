@@ -1,56 +1,15 @@
 <script setup>
 import { CheckboxMarkedCircle } from 'mdue'
-import jsonConvos from './cuteConvos.json' // jsonCache f/localAPI
+import jsonData from '../../json/cuteConvos.json'
 const moment = newMoment() // init dayJS
-// fireBaseDB
-const dbCollection = 'BenCuteConvos' // cached @ fireBase
-const getData = inject('$getData') // getter
-const saveData = inject('$saveData') // setter
-// setup
-const devMode = import.meta.env.MODE == 'development'
+const convos = ref(jsonData?.sort((a,b)=>a.date<b.date?1:-1))
 const iconXreff = { ben: 'ben', dad: 'marc', mom: 'mel' }
-const convos = ref(devMode?jsonConvos:[])
-const thisIX = ref(0) // used to loop through data @ loading
-if(!devMode) getData(dbCollection).then(r=>{ convos.value = r })
-const convoRev = computed( ()=> {
-  const c = convos?.value
-  return c?.length ? c?.sort((a,b)=>a.date<b.date?1:-1) : []
-})
-// "(my)methods"
 const cssTag = c => `${c} ${c!='ben'?'else':''}`
-const setData = async () => {
-  const x = convos?.value[thisIX.value] 
-  await saveData(dbCollection, x.title, x)
-  convos.value[thisIX.value].done = true
-  thisIX.value = thisIX.value + 1
-  if(convos?.value?.[thisIX.value]) await setData()
-}
-const loadData = async () => {
-  convos.value = []
-  await getData(dbCollection)
-    .then( r =>{ 
-      convos.value = r 
-      useHead({title:`funny things ben said [${r.length}]`})
-    })
-}
-// init remote data @ load onProd
-onMounted(()=>{ if(!devMode) loadData() }) 
 </script>
 
 <template>
   <div class="convos">
-    <div v-if="devMode" class="flex flex-row flex-wrap sm:flex-nowrap mb-2 items-center">
-      <label class="px-2" v-text="'devButtons'" />
-      <button 
-        class="bg-red-900 bg-opacity-40 text-orange-700 font-bold w-full py-1" 
-        @click="setData()" 
-        v-text="`setData@${dbCollection}`" />
-      <button 
-        class="bg-violet-900 bg-opacity-40 text-violet-200 font-bold w-full py-1" 
-        @click="loadData()" 
-        v-text="`loadData@${dbCollection}`" />
-    </div>
-    <details v-for="(c,cIX) in convoRev" :key="cIX">
+    <details v-for="(c,cIX) in convos" :key="cIX">
       <summary>
         <CheckboxMarkedCircle v-if="c?.done" class="done" />
         <div class="title" v-text="c?.title" />

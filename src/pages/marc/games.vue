@@ -1,28 +1,23 @@
 <script setup>
 import { GamepadVariant, Loading } from 'mdue'
-const getData = inject('$getData')
-const gamesPS3 = ref(null)
-const gamesSNES = ref(null)
+import gamesPS3 from '../../json/ps3.json'
+import gamesSNES from '../../json/snes.json'
+const games = {ps3:gamesPS3,snes:gamesSNES}
 const search = ref(null)
 // smash URLs
 const data = computed(()=>{
   const s = search.value
-  const ps3 = gamesPS3
-    ?.value
-    ?.map(g=>g={...g, img:new URL(`./games/images/covers/${g.id}${g.name.includes('PSN')?'.[PSN]':''}.png`,import.meta.url).href})
+  const ps3 = games?.ps3
+    ?.map(g=>g={...g, img:`/images/games/skyScrapper/covers/${g.id}${g.name.includes('PSN')?'.[PSN]':''}.png`})
     ?.filter(g=> s ? g.name.toLowerCase().includes(s) : true )
     ?? []
-  const snes = gamesSNES
-    ?.value
-    ?.map(g=>g={...g, img:new URL(`./games/images/${g.cover}`,import.meta.url).href})
+  const snes = games?.snes
+    ?.map(g=>g={...g, img:`/images/games/skyScrapper/${g.cover}`})
     ?.filter(g=> s ? g.name.toLowerCase().includes(s) : true )
     ?? []
   return { ps3, snes }
 })
-const shelf = new URL('./games/images/woodShelf.png',import.meta.url).href
-// get data
-getData('marcGamesPS3').then(r=>{ gamesPS3.value = r })
-getData('marcGamesSNES').then(r=>{ gamesSNES.value = r })
+const shelf = new URL('/images/games/skyScrapper/woodShelf.png',import.meta.url).href
 
 </script>
 
