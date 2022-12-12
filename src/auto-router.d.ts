@@ -58,6 +58,7 @@ declare module 'vue-router/auto/routes' {
     '/marc/other/paramExample': RouteRecordInfo<'/marc/other/paramExample', '/marc/other/paramExample', Record<never, never>, Record<never, never>>,
     '/marc/other/TestingNewFeatures': RouteRecordInfo<'/marc/other/TestingNewFeatures', '/marc/other/TestingNewFeatures', Record<never, never>, Record<never, never>>,
     '/mel/': RouteRecordInfo<'/mel/', '/mel', Record<never, never>, Record<never, never>>,
+    '/mel/movies': RouteRecordInfo<'/mel/movies', '/mel/movies', Record<never, never>, Record<never, never>>,
     '/roger/': RouteRecordInfo<'/roger/', '/roger', Record<never, never>, Record<never, never>>,
   }
 }
