@@ -2,22 +2,22 @@
 import { GamepadVariant, Loading } from 'mdue'
 import gamesPS3 from '../../json/ps3.json'
 import gamesSNES from '../../json/snes.json'
-const games = {ps3:gamesPS3,snes:gamesSNES}
+const allGames = {ps3:gamesPS3,snes:gamesSNES}
 const search = ref(null)
 // smash URLs
 const data = computed(()=>{
   const s = search.value
-  const ps3 = games?.ps3
+  const ps3 = allGames?.ps3
     ?.map(g=>g={...g, img:`/images/games/skyScrapper/covers/${g.id}${g.name.includes('PSN')?'.[PSN]':''}.png`})
     ?.filter(g=> s ? g.name.toLowerCase().includes(s) : true )
     ?? []
-  const snes = games?.snes
+  const snes = allGames?.snes
     ?.map(g=>g={...g, img:`/images/games/skyScrapper/${g.cover}`})
     ?.filter(g=> s ? g.name.toLowerCase().includes(s) : true )
     ?? []
   return { ps3, snes }
 })
-const shelf = new URL('/images/games/skyScrapper/woodShelf.png',import.meta.url).href
+const shelf = '/images/games/skyScrapper/woodShelf.png'
 
 </script>
 

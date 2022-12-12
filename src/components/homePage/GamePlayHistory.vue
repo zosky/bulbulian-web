@@ -8,7 +8,7 @@ const last5games = ref(
     ?.slice(0,6)    
   // add images
     ?.map( 
-      g => g = { ...g, img: new URL(`/public/images/games/lutris/coverart/${g.slug}.jpg`,import.meta.url).href }
+      g => g = { ...g, img: `/images/games/lutris/coverart/${g.slug}.jpg` }
     )
 
 )

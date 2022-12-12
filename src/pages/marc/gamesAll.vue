@@ -4,7 +4,7 @@ import gamesPS3 from '../../json/ps3.json'
 import gamesSNES from '../../json/snes.json'
 import gamesLutris from '../../json/lutris.json'
 
-const shelf = new URL('/images/games/skyScrapper/woodShelf.png',import.meta.url).href
+const shelf = '/images/games/skyScrapper/woodShelf.png'
 const myGames = ref([])
 const lutrisArtStyle = ref('coverart') // TODO (banners|coverart)
 const search = ref(null)
@@ -20,19 +20,19 @@ const data = computed(()=>{
 // ps3
 myGames.value.push( 
   gamesPS3?.map( g => g = { ...g, console:'ps3', 
-    img: `/images/games/skyScrapper/${g.images.cover}` 
+    img: `/images/games/skyScrapper/${g.images.cover}`
   })
 )
 // SNES
 myGames.value.push( 
   gamesSNES?.map( g => g= { ...g, console:'snes', 
-    img: `/images/games/skyScrapper/${g.cover}` 
+    img: `/images/games/skyScrapper/${g.cover}`
   })
 )
 // lutris
 myGames.value.push( 
   gamesLutris?.map( g => g = { ...g, 
-    img:`/images/games/lutris/${lutrisArtStyle.value}/${g.slug}.jpg` 
+    img:`/images/games/lutris/${lutrisArtStyle.value}/${g.slug}.jpg`
   })
 )
 </script>
