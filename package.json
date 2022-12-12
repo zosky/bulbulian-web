@@ -5,12 +5,15 @@
     "dev": "vite --host",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "convoJson": "curl -s 'http://mintyelite:4000/api/data/ben/convos' > src/pages/ben/cuteConvos.json"
+    "json.convos": "curl -s 'http://mintyelite:4000/api/data/ben/convos' > ./src/json/cuteConvos.json",
+    "art.lutris": "rsync -avr --delete /home/zosky/.cache/lutris/banners /home/zosky/.cache/lutris/coverart ./public/images/games/lutris/",
+    "art.skyScraper": " rsync -avr /nfs/eliteHome/www/gamez/Images-PS3/covers /nfs/eliteHome/www/gamez/Images-PS3/covers-2d /nfs/eliteHome/www/gamez/Images-PS3/marquees /nfs/eliteHome/www/gamez/Images-PS3/screenshots /nfs/eliteHome/www/gamez/Images-PS3/wheels ./public/images/games/skyScrapper/"
   },
   "dependencies": {
     "@vueuse/head": "^1.0.0",
     "dayjs": "^1.11.7",
     "firebase": "^9.14.0",
+    "multi-range-slider-vue": "^1.1.4",
     "vue": "^3.2.37",
     "vue-router": "^4.1.5",
     "vue-toastification": "^2.0.0-rc.5"

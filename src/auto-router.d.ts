@@ -40,6 +40,7 @@ declare module 'vue-router/auto/routes' {
     '/amira/': RouteRecordInfo<'/amira/', '/amira', Record<never, never>, Record<never, never>>,
     '/ben/': RouteRecordInfo<'/ben/', '/ben', Record<never, never>, Record<never, never>>,
     '/ben/cuteConvos': RouteRecordInfo<'/ben/cuteConvos', '/ben/cuteConvos', Record<never, never>, Record<never, never>>,
+    '/ben/familyChannel': RouteRecordInfo<'/ben/familyChannel', '/ben/familyChannel', Record<never, never>, Record<never, never>>,
     '/chris/': RouteRecordInfo<'/chris/', '/chris', Record<never, never>, Record<never, never>>,
     '/chris/blog': RouteRecordInfo<'/chris/blog', '/chris/blog', Record<never, never>, Record<never, never>>,
     'blog Edit': RouteRecordInfo<'blog Edit', '/chris/blogEdit/:thisID?', { thisID?: ParamValueZeroOrOne<true> }, { thisID?: ParamValueZeroOrOne<false> }>,
