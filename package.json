@@ -10,7 +10,7 @@
     "art.skyScraper": " rsync -avr /nfs/eliteHome/www/gamez/Images-PS3/covers /nfs/eliteHome/www/gamez/Images-PS3/covers-2d /nfs/eliteHome/www/gamez/Images-PS3/marquees /nfs/eliteHome/www/gamez/Images-PS3/screenshots /nfs/eliteHome/www/gamez/Images-PS3/wheels ./public/images/games/skyScrapper/"
   },
   "dependencies": {
-    "@vueuse/head": "^1.0.0",
+    "@vueuse/head": "^1.0.22",
     "dayjs": "^1.11.7",
     "firebase": "^9.14.0",
     "multi-range-slider-vue": "^1.1.4",
