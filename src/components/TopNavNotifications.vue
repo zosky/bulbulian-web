@@ -48,7 +48,7 @@ const installGoTime = async () => {
         class="Vue-Toastification__toast top-right toastReshade"
         :class="`Vue-Toastification__toast--${n?.type??'info'}`"
         @click="n?.id=='install'?installGoTime():''">
-        <img v-if="n?.image" :src="n.image" />
+        <img v-if="typeof n?.icon == 'string' && n?.icon?.match(/(^http.*)/)" :src="n?.icon" />
         <component :is="n.icon" v-else class="h-8 w-8 mr-1 scale-125 origin-right" />
         <div class="Vue-Toastification__toast-body custom-body">
           <div class="t" v-text="n?.title" />

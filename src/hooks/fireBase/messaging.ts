@@ -23,8 +23,8 @@ onMessage(messaging, (payload) => {
   if(payload?.notification) {
     console.log(`msgCached=${msgCache.value.length}... +1:`, payload)
     if(payload?.notification) {
-      const b = payload?.notification?.body ?? 'none'
-      const nID = toast( b , { timeout: 12241, type: TYPE.SUCCESS })
+      const b = payload?.notification?.title + ' ' + payload?.notification?.body
+      const nID = toast( b , { timeout: 12241, type: TYPE.SUCCESS, icon: payload?.notification?.icon })
       msgCache.value.push({ ... payload.notification, nID })
     }
   }
