@@ -56,8 +56,9 @@ const thisChunk = computed(()=>{
         :placeholder="`search`">
     </div>
   </div>
+  <router-view />
   <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-0.5">
-    <div v-for="v in thisChunk.slice(0,20)" :key="v.id" class="relative">
+    <div v-for="v in thisChunk.slice(0,20)" :key="v.id" class="relative" @click="$router.push(`/ben/familyChannel/${v.id}`)">
       <img :src="v.thumbnail" :alt="v.title" class="w-full h-full aspect-[16/9]">
       <div class="absolute bottom-0 w-full flex flex-row justify-between items-end p-1 text-white bg-blue-900 font-bold mix-blend-overlay">
         <div class="-mt-2 -mb-1.5">{{v.title}}</div>

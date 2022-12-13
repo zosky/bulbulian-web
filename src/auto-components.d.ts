@@ -22,6 +22,7 @@ declare module '@vue/runtime-core' {
     GamePlayHistory: typeof import('./components/homePage/GamePlayHistory.vue')['default']
     GoogleLogin: typeof import('./components/GoogleLogin.vue')['default']
     NavPersonPages: typeof import('./components/NavPersonPages.vue')['default']
+    NewMovies: typeof import('./components/homePage/NewMovies.vue')['default']
     PersonBubble: typeof import('./components/PersonBubble.vue')['default']
     PersonBubbleAmira: typeof import('./components/PersonBubblePerPerson/PersonBubbleAmira.vue')['default']
     PersonBubbleBen: typeof import('./components/PersonBubblePerPerson/PersonBubbleBen.vue')['default']

@@ -1,41 +1,18 @@
 <script setup>
-import { SortAlphabeticalAscendingVariant, SortCalendarDescending, MovieSearch, MovieOutline, CheckCircleOutline, PlayCircleOutline, StarCircleOutline, MovieFilter } from 'mdue'
 import movies from '../../json/movies.json'
 const moment = newMoment()
-const search = ref(null)
-const sortDate = ref(true)
-const theseMovies = computed(()=>{
-  const s = search.value?.toLowerCase()
-  const mSearch = !s ? movies : movies.filter(m=>m.name.toLowerCase().includes(s))
-  return mSearch
-    ?.sort((a,b)=>
-      sortDate?.value ? 
-        a.created>b.created?-1:1
-        : a.name > b.name ? 1:-1
-    )
-})
+const theseMovies = movies
+  ?.filter( m => m.playCount )
+  ?.sort( (a,b)=> a.created>b.created?-1:1 )
+  ?.slice(0,6)
+
 </script>
 
 <template>
-  <div class="flex flex-col sm:flex-row flex-wrap justify-between">
-    <div class="mt-5">
-      <MovieSearch class="text-xl -mb-8 ml-2" />
-      <input
-        v-model="search" type="search"
-        name="search" class="rounded-xl bg-transparent border border-blue-900 pl-8 text-yellow-400 w-96"
-        :placeholder="`search`">
+  <div class="grid grid-cols-3 lg:grid-cols-6 gap-2 my-3 px-2 rounded-t-2xl max-w-7xl mx-auto">
+    <div class="col-span-full flex flex-row gap-2 items-center text-lg font-light opacity-75 -mb-3">
+      <PersonBubble name="mel" class="h-[2em]" /> recently watched these
     </div>
-    <div class="flex flex-row items-center pr-3 text-xl gap-1">
-      <div class="font-mono text-lg" v-text="theseMovies.length" />
-      <MovieOutline />
-      <div class="flex flex-row gap-1 ring-1 rounded-xl px-2 py-1 items-center justify-center" @click="sortDate=!sortDate">
-        <SortAlphabeticalAscendingVariant class="w-8 h-8 -mb-1" :class="{ 'text-yellow-400' : !sortDate }" />
-        <SortCalendarDescending class="w-8 h-8" :class="{ 'text-yellow-400' : sortDate }" />
-      </div>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-3 lg:grid-cols-6 gap-2 my-3">
     <div v-for="movie in theseMovies?.slice(0,24)" :key="movie.id" class="relative movie flip">
       <div class="front">
         <img :src="`/images/movies/poster/${movie.id}.jpg`" :alt="movie.name" class="w-full h-full poster">
@@ -64,7 +41,6 @@ const theseMovies = computed(()=>{
             <div class="h" v-text="movie.height" />
           </div>
         </div>
-
         <img :src="`/images/movies/backdrop/${movie.id}.jpg`" :alt="movie.name" class="w-full backdrop">
       </div>
     </div>
@@ -76,10 +52,7 @@ const theseMovies = computed(()=>{
 /* CARD FLIP: tailwind-afied++ by moi
  * [OG props](https://codepen.io/aron-tw/pen/pLJqgE)
  */
-.movie { @apply relative inline-block
-  w-full transition-shadow 
-  rounded-xl 
-}
+.movie { @apply relative inline-block w-full transition-shadow rounded-xl }
 .movie > div { @apply 
   flex flex-col items-center justify-center 
   bg-gray-800 backdrop-blur-md bg-opacity-75

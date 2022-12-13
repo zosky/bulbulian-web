@@ -15,6 +15,7 @@ useHead({ title: 'Home' })
     <FamilyTree />
     <GamePlayHistory />
     <WildWaterKingdom />
+    <NewMovies />
     <AboutApp />
   </div>
 </template>
