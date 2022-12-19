@@ -39,6 +39,7 @@ declare module 'vue-router/auto/routes' {
     '/[...404]': RouteRecordInfo<'/[...404]', '/:404(.*)', { 404: ParamValue<true> }, { 404: ParamValue<false> }>,
     '/amira/': RouteRecordInfo<'/amira/', '/amira', Record<never, never>, Record<never, never>>,
     '/ben/': RouteRecordInfo<'/ben/', '/ben', Record<never, never>, Record<never, never>>,
+    '/ben/CalamitySanctuary': RouteRecordInfo<'/ben/CalamitySanctuary', '/ben/CalamitySanctuary', Record<never, never>, Record<never, never>>,
     '/ben/cuteConvos': RouteRecordInfo<'/ben/cuteConvos', '/ben/cuteConvos', Record<never, never>, Record<never, never>>,
     '/ben/familyChannel': RouteRecordInfo<'/ben/familyChannel', '/ben/familyChannel', Record<never, never>, Record<never, never>>,
     '/ben/familyChannel/[video]': RouteRecordInfo<'/ben/familyChannel/[video]', '/ben/familyChannel/:video', { video: ParamValue<true> }, { video: ParamValue<false> }>,
