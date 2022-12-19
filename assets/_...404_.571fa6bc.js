@@ -1,0 +1,1 @@
+import{q as e,o as s,c as a,a as t}from"./index.72e32634.js";const o={class:"bg-white shadow"},c=t("div",{class:"mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8"},[t("h1",{class:"text-3xl font-bold leading-tight text-gray-900"},"Not Found")],-1),_=[c],x={__name:"[...404]",setup(l){return e({title:"404"}),(n,d)=>(s(),a("header",o,_))}};export{x as default};

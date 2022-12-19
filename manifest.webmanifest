@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Bulbulian.com",
+  "short_name": "bulbulian",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#b9ec",
+  "description": "family news & events",
+  "icons": [
+    { "src": "/favicon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/favicon-512.png", "type": "image/png", "sizes": "512x512" }
+  ]
+}

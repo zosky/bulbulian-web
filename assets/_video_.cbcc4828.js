@@ -1,0 +1,1 @@
+import{_ as r}from"./YouTube.bf1ff784.js";import{_,o as a,j as n}from"./index.72e32634.js";const t={};function f(c,i){var o,e;const s=r;return a(),n(s,{id:(e=(o=c.$route)==null?void 0:o.params)==null?void 0:e.video,class:"w-full aspect-[16/9] my-1"},null,8,["id"])}const p=_(t,[["render",f]]);export{p as default};

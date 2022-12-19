@@ -1,0 +1,1 @@
+import{q as t,o,c as s,a as n,t as m}from"./index.72e32634.js";const c={class:"markdown-body"},i="goTime",u=[],h={__name:"paramExample",setup(r,{expose:e}){const a={name:"goTime",meta:[]};return e({frontmatter:a}),t({meta:[]}),(d,l)=>(o(),s("div",c,[n("h1",null,"about "+m(a.name),1)]))}};export{h as default,u as meta,i as name};
