@@ -6,8 +6,13 @@
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
     "json.convos": "curl -s 'http://mintyelite:4000/api/data/ben/convos' > ./src/json/cuteConvos.json",
+    "json.lutris": "cd backendAPI ; node ./scripts/lutrisJSON.js", 
     "art.lutris": "rsync -avr --delete /home/zosky/.cache/lutris/banners /home/zosky/.cache/lutris/coverart ./public/images/games/lutris/",
-    "art.skyScraper": " rsync -avr /nfs/eliteHome/www/gamez/Images-PS3/covers /nfs/eliteHome/www/gamez/Images-PS3/covers-2d /nfs/eliteHome/www/gamez/Images-PS3/marquees /nfs/eliteHome/www/gamez/Images-PS3/screenshots /nfs/eliteHome/www/gamez/Images-PS3/wheels ./public/images/games/skyScrapper/"
+    "art.skyScraper": " rsync -avr /nfs/eliteHome/www/gamez/Images-PS3/covers /nfs/eliteHome/www/gamez/Images-PS3/covers-2d /nfs/eliteHome/www/gamez/Images-PS3/marquees /nfs/eliteHome/www/gamez/Images-PS3/screenshots /nfs/eliteHome/www/gamez/Images-PS3/wheels ./public/images/games/skyScrapper/",
+    "RE:lutris": "npm run art.lutris ; npm run json.lutris",
+    "RE:jellyfinMovies": "cd backendAPI ; node ./scripts/jellyfinMovies.js",
+    "reL": "npm run RE:lutris",
+    "reJFm": "npm run RE:jellyfinMovies"
   },
   "dependencies": {
     "@vueuse/head": "^1.0.22",
