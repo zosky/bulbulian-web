@@ -15,7 +15,7 @@
     "reJFm": "npm run RE:jellyfinMovies"
   },
   "dependencies": {
-    "@vueuse/head": "^1.0.22",
+    "@vueuse/head": "^1.0.26",
     "dayjs": "^1.11.7",
     "firebase": "^9.14.0",
     "multi-range-slider-vue": "^1.1.4",
